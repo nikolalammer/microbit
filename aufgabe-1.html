@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aufgabe 1 – Erste Schritte | micro:bit</title>
+  <style>
+    /* ── Design Tokens ── */
+    :root {
+      --bg:        #0d0d1a;
+      --surface:   #14142a;
+      --surface2:  #1e1e3a;
+      --border:    #2a2a4a;
+      --accent:    #00d4ff;
+      --accent-dim:#0099bb;
+      --purple:    #7c3aed;
+      --success:   #10b981;
+      --warn:      #f59e0b;
+      --text:      #e2e8f0;
+      --subtext:   #94a3b8;
+      --radius:    14px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13, 13, 26, 0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      color: var(--subtext);
+    }
+    nav a {
+      color: var(--subtext);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+    nav a:hover { color: var(--accent); }
+    nav .sep { opacity: 0.4; }
+    nav .current { color: var(--accent); font-weight: 600; }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 3rem 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(0, 212, 255, 0.08) 0%, transparent 70%),
+                  radial-gradient(ellipse 40% 60% at 20% 80%, rgba(124, 58, 237, 0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-robot {
+      flex-shrink: 0;
+      width: clamp(100px, 18vw, 160px);
+      animation: float 3s ease-in-out infinite;
+      filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.3));
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0);    }
+      50%       { transform: translateY(-10px); }
+    }
+
+    .hero-text { flex: 1; }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 0.75rem;
+    }
+
+    h1 {
+      font-size: clamp(1.75rem, 5vw, 2.75rem);
+      font-weight: 800;
+      line-height: 1.15;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-sub {
+      color: var(--subtext);
+      font-size: 1rem;
+      max-width: 480px;
+    }
+
+    /* ── Ziel-Banner ── */
+    .ziel {
+      max-width: 900px;
+      margin: 0 auto 2rem;
+      padding: 0 1.5rem;
+    }
+
+    .ziel-inner {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(16, 185, 129, 0.04));
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .ziel-icon {
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .ziel-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--success);
+      margin-bottom: 0.2rem;
+    }
+
+    .ziel-text {
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    /* ── Main content ── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1.5rem 4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+
+    /* ── Steps ── */
+    .steps { display: flex; flex-direction: column; gap: 1rem; }
+
+    .step {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      display: grid;
+      grid-template-columns: 2.5rem 1fr;
+      gap: 0.75rem 1rem;
+      align-items: start;
+    }
+
+    .step-num {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1rem;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .step-body { padding-top: 0.35rem; }
+    .step-title {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 0.35rem;
+      color: #fff;
+    }
+    .step-desc {
+      color: var(--subtext);
+      font-size: 0.9rem;
+    }
+    .step-desc strong { color: var(--accent); font-weight: 600; }
+
+    /* ── MakeCode Section ── */
+    .makecode-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .section-header {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .section-header .dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+    .dot-red    { background: #ff5f57; }
+    .dot-yellow { background: #ffbd2e; }
+    .dot-green  { background: #28c840; }
+
+    .section-header span {
+      margin-left: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--subtext);
+    }
+
+    .makecode-frame {
+      width: 100%;
+      height: 500px;
+      border: none;
+      display: block;
+      background: #1e1e2e;
+    }
+
+    /* ── Tipp & Lösung ── */
+    .hint-section {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.9rem 1.75rem;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: all var(--transition);
+      min-height: 52px;
+      touch-action: manipulation;
+      width: 100%;
+    }
+
+    .btn-tipp {
+      background: rgba(245, 158, 11, 0.12);
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      color: var(--warn);
+    }
+    .btn-tipp:hover, .btn-tipp:focus-visible {
+      background: rgba(245, 158, 11, 0.2);
+      border-color: var(--warn);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(245, 158, 11, 0.2);
+    }
+
+    .btn-loesung {
+      background: rgba(124, 58, 237, 0.12);
+      border: 2px solid rgba(124, 58, 237, 0.4);
+      color: #a78bfa;
+    }
+    .btn-loesung:hover, .btn-loesung:focus-visible {
+      background: rgba(124, 58, 237, 0.22);
+      border-color: var(--purple);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(124, 58, 237, 0.2);
+    }
+    .btn-loesung:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-icon { font-size: 1.1rem; transition: transform var(--transition); }
+    .btn[aria-expanded="true"] .btn-icon { transform: rotate(180deg); }
+
+    /* ── Collapsible Panels ── */
+    .panel {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .panel.open { grid-template-rows: 1fr; }
+    .panel-inner { overflow: hidden; }
+    .panel-content {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .tipp-content { color: var(--subtext); font-size: 0.95rem; }
+    .tipp-content ul { padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.4rem; }
+    .tipp-content li::marker { color: var(--warn); }
+    .tipp-content strong { color: var(--text); }
+
+    .loesung-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .loesung-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #a78bfa;
+      margin-bottom: 0.5rem;
+    }
+
+    .block-diagram {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.35rem;
+    }
+
+    .block-diagram img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    .block-indent {
+      margin-left: 1.5rem;
+    }
+
+    .loesung-note {
+      font-size: 0.85rem;
+      color: var(--subtext);
+      background: rgba(0, 212, 255, 0.06);
+      border: 1px solid rgba(0, 212, 255, 0.15);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+    }
+
+    /* ── Checkliste ── */
+    .checklist-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+
+    .checklist-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .checklist {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all var(--transition);
+      user-select: none;
+    }
+
+    .checklist-item:hover {
+      border-color: var(--success);
+      background: rgba(16, 185, 129, 0.06);
+    }
+
+    .checklist-item input[type="checkbox"] { display: none; }
+
+    .check-box {
+      width: 24px; height: 24px;
+      border-radius: 6px;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+      background: transparent;
+    }
+
+    .checklist-item:has(input:checked) .check-box {
+      background: var(--success);
+      border-color: var(--success);
+    }
+
+    .checklist-item:has(input:checked) .check-box::after {
+      content: '✓';
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 800;
+    }
+
+    .checklist-item:has(input:checked) .check-label {
+      color: var(--subtext);
+      text-decoration: line-through;
+    }
+
+    .check-label {
+      font-size: 0.95rem;
+      transition: color var(--transition);
+    }
+
+    /* Progress bar */
+    .progress-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+    .progress-bar-bg {
+      flex: 1;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--border);
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--success), var(--accent));
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+    .progress-label {
+      font-size: 0.8rem;
+      color: var(--subtext);
+      white-space: nowrap;
+    }
+
+    /* ── Next button ── */
+    .btn-next {
+      background: linear-gradient(135deg, var(--accent), #0099bb);
+      color: #000;
+      border: none;
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: 0.01em;
+      box-shadow: 0 4px 24px rgba(0, 212, 255, 0.25);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1rem 2rem;
+      border-radius: var(--radius);
+      min-height: 56px;
+      touch-action: manipulation;
+      transition: all var(--transition);
+      width: 100%;
+    }
+
+    .btn-next:hover, .btn-next:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0, 212, 255, 0.4);
+    }
+
+    .arrow { transition: transform var(--transition); }
+    .btn-next:hover .arrow { transform: translateX(4px); }
+
+    /* ── Glow divider ── */
+    .glow-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0.2;
+      margin: 0.5rem 0;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .hero { flex-direction: column; text-align: center; padding: 2rem 1rem 1.5rem; }
+      .hero-sub { margin: 0 auto; }
+      .hero-robot { width: 100px; }
+      main { padding: 0 1rem 3rem; }
+      .ziel { padding: 0 1rem; }
+      .step { grid-template-columns: 2rem 1fr; gap: 0.5rem 0.75rem; padding: 1rem; }
+      .step-num { width: 2rem; height: 2rem; font-size: 0.85rem; }
+      .makecode-frame { height: 380px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html">micro:bit</a>
+    <span class="sep">›</span>
+    <a href="level-1.html">Level 1</a>
+    <span class="sep">›</span>
+    <span class="current">Aufgabe 1 – Erste Schritte</span>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <img
+      class="hero-robot"
+      src="Arbeitsblätter/Bilder/Buttons/microbit_roboter_ohne_BG.png"
+      alt="micro:bit Roboter Maskottchen"
+    >
+    <div class="hero-text">
+      <div class="hero-badge">Level 1 · Aufgabe 1</div>
+      <h1>Erste Schritte</h1>
+      <p class="hero-sub">
+        Öffne MakeCode, programmiere dein erstes Symbol und lass es auf dem micro:bit leuchten.
+      </p>
+    </div>
+  </section>
+
+  <!-- Ziel -->
+  <div class="ziel">
+    <div class="ziel-inner">
+      <span class="ziel-icon">🎯</span>
+      <div>
+        <div class="ziel-label">Lernziel</div>
+        <div class="ziel-text">
+          Am Ende leuchtet ein selbst gewähltes Symbol auf dem 5×5-LED-Display deines micro:bits —
+          und du weißt, wie du ein MakeCode-Programm schreibst, herunterlädst und flasht.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <main>
+
+    <!-- Steps -->
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">MakeCode öffnen</div>
+          <div class="step-desc">
+            Gehe auf <strong>makecode.microbit.org</strong> und erstelle ein
+            <strong>neues Projekt</strong>. Du siehst den Block-Editor mit dem
+            micro:bit-Simulator auf der linken Seite.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Block hinzufügen</div>
+          <div class="step-desc">
+            Klicke in der Kategorie <strong>Grundlagen</strong> auf
+            <strong>„zeige Symbol"</strong>. Ziehe den Block in den
+            <strong>„beim Start"</strong>-Block in der Mitte des Editors.
+            Wähle ein beliebiges Symbol aus dem Menü.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Herunterladen &amp; flashen</div>
+          <div class="step-desc">
+            Verbinde den micro:bit mit dem USB-Kabel. Klicke auf den
+            <strong>„Herunterladen"</strong>-Button (Pfeil nach unten). Ziehe die
+            heruntergeladene <em>.hex</em>-Datei auf das MICROBIT-Laufwerk — das
+            Symbol erscheint auf dem Display!
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Erweitern: Animation</div>
+          <div class="step-desc">
+            Rechtsklick auf deinen Block → <strong>„Duplizieren"</strong>.
+            Füge mehrere <strong>„zeige Symbol"</strong>-Blöcke hintereinander ein,
+            wähle jeweils ein anderes Symbol — und schon hast du eine Animation!
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- MakeCode Embed -->
+    <div class="makecode-section">
+      <div class="section-header">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        <span>MakeCode Editor – probiere es direkt hier aus</span>
+      </div>
+      <iframe
+        class="makecode-frame"
+        src="https://makecode.microbit.org/#pub:"
+        title="MakeCode micro:bit Editor"
+        allowfullscreen
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+      ></iframe>
+    </div>
+
+    <!-- Tipp & Lösung -->
+    <div class="hint-section">
+
+      <!-- Tipp -->
+      <button
+        class="btn btn-tipp"
+        id="btnTipp"
+        aria-expanded="false"
+        onclick="toggleTipp()"
+      >
+        <span>💡</span>
+        <span>Tipp anzeigen</span>
+        <span class="btn-icon">▾</span>
+      </button>
+
+      <div class="panel" id="panelTipp">
+        <div class="panel-inner">
+          <div class="panel-content tipp-content">
+            <ul>
+              <li>Du findest den Block <strong>„zeige Symbol"</strong> unter der Kategorie <strong>Grundlagen</strong> (blaue Farbe).</li>
+              <li>Der <strong>„beim Start"</strong>-Block ist bereits im Editor — du musst ihn nicht suchen.</li>
+              <li>Der Simulator links zeigt dir sofort, wie das Symbol aussehen wird — du musst nicht flashen, um es zu testen.</li>
+              <li>Für die Animation: Blöcke werden von <strong>oben nach unten</strong> abgearbeitet.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lösung -->
+      <button
+        class="btn btn-loesung"
+        id="btnLoesung"
+        aria-expanded="false"
+        disabled
+        onclick="toggleLoesung()"
+      >
+        <span>🔓</span>
+        <span>Lösung anzeigen</span>
+        <span class="btn-icon">▾</span>
+      </button>
+
+      <div class="panel" id="panelLoesung">
+        <div class="panel-inner">
+          <div class="panel-content loesung-content">
+            <div class="loesung-label">So sieht der fertige Code aus</div>
+            <div class="block-diagram">
+              <img
+                src="Arbeitsblätter/Bilder/Buttons/beim_start.png"
+                alt="beim Start Block"
+                style="max-width: 220px;"
+              >
+              <div class="block-indent">
+                <img
+                  src="Arbeitsblätter/Bilder/Buttons/zeige symbol.png"
+                  alt="zeige Symbol Block"
+                  style="max-width: 280px;"
+                >
+              </div>
+            </div>
+            <div class="loesung-note">
+              ✨ Für die Animation: Füge mehrere <em>„zeige Symbol"</em>-Blöcke
+              untereinander in den <em>„beim Start"</em>-Block ein —
+              einen für jeden Frame deiner Animation.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="glow-divider"></div>
+
+    <!-- Checkliste -->
+    <div class="checklist-section">
+      <div class="checklist-title">
+        <span>✅</span> Ich habe …
+      </div>
+      <div class="checklist" id="checklist">
+
+        <label class="checklist-item">
+          <input type="checkbox" onchange="updateProgress()">
+          <span class="check-box"></span>
+          <span class="check-label">MakeCode geöffnet und ein neues Projekt erstellt</span>
+        </label>
+
+        <label class="checklist-item">
+          <input type="checkbox" onchange="updateProgress()">
+          <span class="check-box"></span>
+          <span class="check-label">einen „zeige Symbol"-Block in „beim Start" eingefügt</span>
+        </label>
+
+        <label class="checklist-item">
+          <input type="checkbox" onchange="updateProgress()">
+          <span class="check-box"></span>
+          <span class="check-label">den Code heruntergeladen und auf dem micro:bit geflasht</span>
+        </label>
+
+        <label class="checklist-item">
+          <input type="checkbox" onchange="updateProgress()">
+          <span class="check-box"></span>
+          <span class="check-label">eine Animation mit mehreren Symbolen programmiert</span>
+        </label>
+
+      </div>
+
+      <div class="progress-row">
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progressFill"></div>
+        </div>
+        <span class="progress-label" id="progressLabel">0 / 4</span>
+      </div>
+    </div>
+
+    <!-- Nächste Aufgabe -->
+    <a href="aufgabe-2.html" class="btn-next">
+      Nächste Aufgabe: Text anzeigen
+      <span class="arrow">→</span>
+    </a>
+
+  </main>
+
+  <script>
+    // ── Tipp / Lösung Toggle ──────────────────────────────────────
+    let tippShown = false;
+
+    function toggleTipp() {
+      const btn   = document.getElementById('btnTipp');
+      const panel = document.getElementById('panelTipp');
+      const open  = panel.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open);
+
+      if (open && !tippShown) {
+        tippShown = true;
+        // Lösung-Button freischalten
+        const btnL = document.getElementById('btnLoesung');
+        btnL.disabled = false;
+        btnL.style.animation = 'pulse 0.6s ease';
+      }
+    }
+
+    function toggleLoesung() {
+      const btn   = document.getElementById('btnLoesung');
+      const panel = document.getElementById('panelLoesung');
+      const open  = panel.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open);
+    }
+
+    // ── Checkliste Fortschritt ────────────────────────────────────
+    function updateProgress() {
+      const items  = document.querySelectorAll('#checklist input[type="checkbox"]');
+      const total  = items.length;
+      const done   = [...items].filter(cb => cb.checked).length;
+      const pct    = Math.round((done / total) * 100);
+
+      document.getElementById('progressFill').style.width = pct + '%';
+      document.getElementById('progressLabel').textContent = done + ' / ' + total;
+    }
+
+    // ── Pulse animation for unlock ────────────────────────────────
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes pulse {
+        0%   { transform: scale(1); }
+        40%  { transform: scale(1.03); box-shadow: 0 0 0 6px rgba(124,58,237,0.2); }
+        100% { transform: scale(1); }
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+
+</body>
+</html>

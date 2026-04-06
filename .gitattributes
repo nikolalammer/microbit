@@ -1,0 +1,12 @@
+# Line endings
+* text=auto
+*.hex binary
+*.stl binary
+*.3mf binary
+*.blend binary
+*.xcf binary
+*.png binary
+*.jpg binary
+*.webp binary
+*.pdf binary
+*.docx binary

@@ -1,0 +1,40 @@
+// 1. Initialisierung
+OLED.init(128, 64)
+
+// --- TEIL 1: Flüssiger Ladebalken ---
+OLED.writeStringNewLine("SYSTEM BOOT...")
+OLED.drawRectangle(10, 30, 118, 45) // Rahmen zeichnen
+
+// Wir füllen das Rechteck flüssig auf
+for (let i = 0; i <= 108; i++) {
+    OLED.drawRectangle(10, 30, 10 + i, 45)
+    basic.pause(2)
+}
+
+basic.pause(300)
+OLED.clear()
+
+// --- TEIL 2: Geometrische Animation ---
+OLED.writeStringNewLine("GRAFIK-ENGINE:")
+
+// Wachsende Kreise (Pulse-Effekt)
+for (let r = 2; r <= 30; r += 2) {
+    OLED.drawCircle(64, 40, r)
+    basic.pause(50)
+}
+
+// Fächer-Effekt mit Linien
+for (let j = 0; j <= 128; j += 16) {
+    OLED.drawLine(0, 0, j, 64)
+    basic.pause(50)
+}
+
+basic.pause(1000)
+OLED.clear()
+
+// --- TEIL 3: Das finale Bild ---
+OLED.writeStringNewLine("READY!")
+OLED.drawRectangle(0, 0, 127, 63) // Großer Außenrahmen
+OLED.drawFilledCircle(64, 32, 10) // Zentrales Auge
+OLED.drawLine(0, 32, 128, 32)    // Kreuzlinien
+OLED.drawLine(64, 0, 64, 64)
