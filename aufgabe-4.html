@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aufgabe 4 – Zufall | micro:bit</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="index.html">micro:bit</a>
+    <span class="sep">›</span>
+    <a href="aufgabe-3.html">Aufgabe 3</a>
+    <span class="sep">›</span>
+    <span class="current">Aufgabe 4 – Zufall</span>
+  </nav>
+
+  <section class="hero">
+    <img class="hero-robot"
+      src="Arbeitsblätter/Bilder/Buttons/microbit_roboter_ohne_BG.png"
+      alt="micro:bit Roboter">
+    <div class="hero-text">
+      <div class="hero-badge">Level 1 · Aufgabe 4 von 5</div>
+      <h1>Zufall</h1>
+      <p class="hero-sub">Baue einen digitalen Würfel: Schüttle den micro:bit und er zeigt eine zufällige Zahl von 1 bis 6!</p>
+    </div>
+  </section>
+
+  <div class="ziel">
+    <div class="ziel-inner">
+      <span class="ziel-icon">🎯</span>
+      <div>
+        <div class="ziel-label">Lernziel</div>
+        <div class="ziel-text">Am Ende zeigt dein micro:bit beim Schütteln eine zufällige Zahl — und du kannst den Zufallsbereich selbst verändern.</div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Schütteln als Eingabe</div>
+          <div class="step-desc">Öffne <strong>Eingabe</strong> und suche den Block <strong>„wenn geschüttelt"</strong>. Ziehe ihn in den Arbeitsbereich — das ist der Auslöser für deinen Würfel.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Zufallszahl erzeugen</div>
+          <div class="step-desc">Öffne <strong>Grundlagen</strong> → <strong>„zeige Zahl"</strong>. Öffne dann <strong>Mathematik</strong> → <strong>„wähle zufällig von 0 bis 10"</strong>. Ziehe den Zufalls-Block in das Zahlenfeld von „zeige Zahl". Ändere die Werte auf <strong>1 bis 6</strong>.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Würfeln!</div>
+          <div class="step-desc">Flashe den Code. Schüttle den micro:bit kräftig — er zeigt eine Zahl zwischen 1 und 6. Im Simulator kannst du auf <strong>„SHAKE"</strong> klicken, um es zu testen.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Erweitern: Größerer Bereich</div>
+          <div class="step-desc">Ändere die Zufallszahl auf <strong>1 bis 100</strong>. Was passiert? Kannst du stattdessen ein zufälliges <strong>Symbol</strong> anzeigen? (Tipp: „zeige Symbol" statt „zeige Zahl" und Symbole in eine Liste packen)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="makecode-section">
+      <div class="section-header">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        <span>MakeCode Editor öffnen</span>
+      </div>
+      <div class="makecode-body">
+        <a href="https://makecode.microbit.org/" target="_blank" rel="noopener noreferrer" class="btn-makecode">
+          <svg width="22" height="22" viewBox="0 0 100 100" fill="none"><rect width="100" height="100" rx="18" fill="#fff"/><path d="M22 50L38 34L54 50L38 66L22 50Z" fill="#e63022"/><path d="M46 50L62 34L78 50L62 66L46 50Z" fill="#e63022" opacity=".6"/></svg>
+          In MakeCode öffnen
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+        <p class="makecode-note">Öffnet makecode.microbit.org in einem neuen Tab — kein Login nötig.</p>
+      </div>
+    </div>
+
+    <div class="hint-section">
+
+      <button class="btn btn-tipp" id="btnTipp" aria-expanded="false" onclick="toggleTipp()">
+        <span>💡</span><span>Tipp anzeigen</span><span class="btn-icon">▾</span>
+      </button>
+      <div class="panel" id="panelTipp">
+        <div class="panel-inner">
+          <div class="panel-content tipp-content">
+            <ul>
+              <li><strong>„wenn geschüttelt"</strong> ist in der Kategorie <strong>Eingabe</strong> — scrolle nach unten, wenn du ihn nicht siehst.</li>
+              <li>Den Zufalls-Block findest du unter <strong>Mathematik</strong> (lila Kategorie).</li>
+              <li>Ziehe den Zufalls-Block <strong>in das ovale Zahlenfeld</strong> von „zeige Zahl" — nicht daneben!</li>
+              <li>Setze den Bereich auf <strong>von 1 bis 6</strong> für einen echten Würfel.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-loesung" id="btnLoesung" aria-expanded="false" disabled onclick="toggleLoesung()">
+        <span>🔓</span><span>Lösung anzeigen</span><span class="btn-icon">▾</span>
+      </button>
+      <div class="panel" id="panelLoesung">
+        <div class="panel-inner">
+          <div class="panel-content loesung-content">
+            <div class="loesung-warning">
+              <span>⚠️</span>
+              <span>Versuche es zuerst selbst — die Lösung ist nur zur Kontrolle!</span>
+            </div>
+            <div class="loesung-label">So sieht der fertige Code aus</div>
+            <div class="block-diagram">
+              <img src="Arbeitsblätter/Bilder/Buttons/wenn_shaked.png" alt="wenn geschüttelt Block" style="max-width:260px">
+              <div class="block-indent">
+                <img src="Arbeitsblätter/Bilder/Buttons/zeige_Zahl.png" alt="zeige Zahl Block" style="max-width:200px">
+                <div style="margin-top:.3rem">
+                  <img src="Arbeitsblätter/Bilder/Buttons/Zufallszahl.png" alt="Zufallszahl Block" style="max-width:240px">
+                </div>
+              </div>
+            </div>
+            <div class="loesung-note">✨ Der Zufalls-Block steckt <strong>innerhalb</strong> des „zeige Zahl"-Blocks — er liefert die Zahl, die angezeigt werden soll.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="glow-divider"></div>
+
+    <div class="checklist-section">
+      <div class="checklist-title"><span>✅</span> Ich habe …</div>
+      <div class="checklist" id="checklist">
+        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">den „wenn geschüttelt"-Block in MakeCode gefunden</span></label>
+        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">den Zufalls-Block in „zeige Zahl" eingesetzt</span></label>
+        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">den Würfel geflasht und durch Schütteln getestet</span></label>
+        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">den Zufallsbereich verändert und den Unterschied beobachtet</span></label>
+      </div>
+      <div class="progress-row">
+        <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
+        <span class="progress-label" id="progressLabel">0 / 4</span>
+      </div>
+    </div>
+
+    <a href="aufgabe-5.html" class="btn-next">Nächste Aufgabe: Funk <span class="arrow">→</span></a>
+
+  </main>
+
+  <script src="main.js"></script>
+</body>
+</html>

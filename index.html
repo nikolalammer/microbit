@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>micro:bit Lernplattform | MS Eberschwang</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .index-main { max-width: 900px; margin: 0 auto; padding: 0 1.5rem 4rem; display: flex; flex-direction: column; gap: 2.5rem; }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: .75rem;
+    }
+    .intro-stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      text-align: center;
+    }
+    .intro-stat-num { font-size: 2rem; font-weight: 800; color: var(--accent); line-height: 1; }
+    .intro-stat-label { font-size: .8rem; color: var(--subtext); margin-top: .2rem; }
+
+    .lernbox-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .lernbox-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      display: flex; flex-direction: column; gap: .5rem;
+      opacity: .55;
+      position: relative;
+      overflow: hidden;
+    }
+    .lernbox-card::after {
+      content: 'Coming Soon';
+      position: absolute;
+      top: .6rem; right: -.8rem;
+      background: var(--border);
+      color: var(--subtext);
+      font-size: .65rem; font-weight: 700;
+      letter-spacing: .06em; text-transform: uppercase;
+      padding: .2rem 1.5rem;
+      transform: rotate(30deg);
+    }
+    .lernbox-icon { font-size: 1.75rem; }
+    .lernbox-title { font-weight: 700; color: #fff; }
+    .lernbox-desc { font-size: .82rem; color: var(--subtext); }
+
+    @media (max-width: 600px) {
+      .intro-grid { grid-template-columns: 1fr 1fr; }
+      .lernbox-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <span class="current">micro:bit Lernplattform</span>
+    <span style="flex:1"></span>
+    <a href="https://ms-eberschwang.at" target="_blank" rel="noopener" style="font-size:.8rem">MS Eberschwang ↗</a>
+  </nav>
+
+  <!-- Hero -->
+  <div class="index-hero">
+    <img
+      src="Arbeitsblätter/Bilder/Buttons/microbit_roboter_ohne_BG.png"
+      alt="micro:bit Maskottchen"
+      style="width:100px; animation: float 3s ease-in-out infinite; filter: drop-shadow(0 0 20px rgba(0,212,255,.4)); margin-bottom:1.5rem"
+    >
+    <div style="display:inline-block; background:rgba(0,212,255,.1); border:1px solid rgba(0,212,255,.3); color:var(--accent); font-size:.75rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:.25rem .75rem; border-radius:999px; margin-bottom:1rem">MS Eberschwang · MINT</div>
+    <h1>micro:bit<br>Lernplattform</h1>
+    <p>Programmiere deinen micro:bit Schritt für Schritt — von deinem ersten Symbol bis zum Funk-Nachrichtensystem.</p>
+  </div>
+
+  <div class="index-main">
+
+    <!-- Stats -->
+    <div class="intro-grid">
+      <div class="intro-stat">
+        <div class="intro-stat-num">5</div>
+        <div class="intro-stat-label">Grundlagen-Aufgaben</div>
+      </div>
+      <div class="intro-stat">
+        <div class="intro-stat-num">6</div>
+        <div class="intro-stat-label">Lernboxen</div>
+      </div>
+      <div class="intro-stat">
+        <div class="intro-stat-num">0€</div>
+        <div class="intro-stat-label">Kosten · alles gratis</div>
+      </div>
+    </div>
+
+    <!-- Grundlagen -->
+    <div>
+      <div class="section-title">🚀 Grundlagen – Level 1</div>
+      <div class="card-grid">
+
+        <a href="einfuehrung.html" class="card">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div class="card-num" style="background:linear-gradient(135deg,var(--purple),#4f46e5)">★</div>
+            <span class="card-tag tag-intro">Einführung</span>
+          </div>
+          <div class="card-title">Was ist der micro:bit?</div>
+          <div class="card-desc">Hardware kennenlernen, MakeCode öffnen, erstes Projekt anlegen.</div>
+          <div class="card-arrow">Starten →</div>
+        </a>
+
+        <a href="aufgabe-1.html" class="card">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div class="card-num">1</div>
+            <span class="card-tag tag-available">Verfügbar</span>
+          </div>
+          <div class="card-title">Erste Schritte</div>
+          <div class="card-desc">Erstes Symbol auf dem LED-Display anzeigen und eine Animation bauen.</div>
+          <div class="card-arrow">Aufgabe öffnen →</div>
+        </a>
+
+        <a href="aufgabe-2.html" class="card">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div class="card-num">2</div>
+            <span class="card-tag tag-available">Verfügbar</span>
+          </div>
+          <div class="card-title">Text anzeigen</div>
+          <div class="card-desc">Namen und Zahlen über das Display scrollen lassen.</div>
+          <div class="card-arrow">Aufgabe öffnen →</div>
+        </a>
+
+        <a href="aufgabe-3.html" class="card">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div class="card-num">3</div>
+            <span class="card-tag tag-available">Verfügbar</span>
+          </div>
+          <div class="card-title">Eingabe</div>
+          <div class="card-desc">Mit Knopf A und B auf Eingaben reagieren — drei verschiedene Aktionen.</div>
+          <div class="card-arrow">Aufgabe öffnen →</div>
+        </a>
+
+        <a href="aufgabe-4.html" class="card">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div class="card-num">4</div>
+            <span class="card-tag tag-available">Verfügbar</span>
+          </div>
+          <div class="card-title">Zufall</div>
+          <div class="card-desc">Digitaler Würfel: Schütteln für eine zufällige Zahl von 1–6.</div>
+          <div class="card-arrow">Aufgabe öffnen →</div>
+        </a>
+
+        <a href="aufgabe-5.html" class="card">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div class="card-num">5</div>
+            <span class="card-tag tag-available">Verfügbar</span>
+          </div>
+          <div class="card-title">Funk</div>
+          <div class="card-desc">Nachrichten kabellos zwischen zwei micro:bits senden und empfangen.</div>
+          <div class="card-arrow">Aufgabe öffnen →</div>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- Lernboxen -->
+    <div>
+      <div class="section-title">📦 Lernboxen – Projekte</div>
+      <div class="lernbox-grid">
+
+        <div class="lernbox-card">
+          <div class="lernbox-icon">🌤️</div>
+          <div class="lernbox-title">SkyBit</div>
+          <div class="lernbox-desc">Mini-Wetterstation mit Temperatur &amp; Luftfeuchtigkeit</div>
+        </div>
+
+        <div class="lernbox-card">
+          <div class="lernbox-icon">🚗</div>
+          <div class="lernbox-title">MicroCar</div>
+          <div class="lernbox-desc">Ferngesteuertes Auto mit Funk-Steuerung</div>
+        </div>
+
+        <div class="lernbox-card">
+          <div class="lernbox-icon">🎵</div>
+          <div class="lernbox-title">Musik</div>
+          <div class="lernbox-desc">Melodien programmieren und spielen</div>
+        </div>
+
+        <div class="lernbox-card">
+          <div class="lernbox-icon">🌱</div>
+          <div class="lernbox-title">PlantBit</div>
+          <div class="lernbox-desc">Pflanzensensor: Erkennt wann gegossen werden muss</div>
+        </div>
+
+        <div class="lernbox-card">
+          <div class="lernbox-icon">🖥️</div>
+          <div class="lernbox-title">Bildschirm</div>
+          <div class="lernbox-desc">OLED-Display am micro:bit ansteuern</div>
+        </div>
+
+        <div class="lernbox-card">
+          <div class="lernbox-icon">🧱</div>
+          <div class="lernbox-title">LEGO Auto</div>
+          <div class="lernbox-desc">LEGO-Fahrzeug mit 3D-Druck und Servomotoren</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div style="text-align:center; color:var(--subtext); font-size:.8rem; border-top:1px solid var(--border); padding-top:1.5rem">
+      MS Eberschwang · MINT-Projekt · Alle Programme auf
+      <a href="https://makecode.microbit.org" target="_blank" rel="noopener" style="color:var(--accent)">makecode.microbit.org</a>
+    </div>
+
+  </div>
+
+  <script>
+    // Float animation for hero robot (inline since no main.js updateProgress needed here)
+  </script>
+  <style>
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-10px); }
+    }
+  </style>
+
+</body>
+</html>

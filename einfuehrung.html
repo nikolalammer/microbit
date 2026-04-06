@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Einführung – Was ist der micro:bit? | micro:bit</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .hardware-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: .75rem;
+    }
+    .hw-item {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: .75rem 1rem;
+      font-size: .875rem;
+    }
+    .hw-icon { font-size: 1.4rem; margin-bottom: .3rem; }
+    .hw-name { font-weight: 700; color: #fff; }
+    .hw-desc { color: var(--subtext); font-size: .8rem; margin-top: .15rem; }
+    .makecode-screenshot {
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .makecode-screenshot img { width: 100%; height: auto; display: block; }
+    .btn-start {
+      background: linear-gradient(135deg, var(--accent), #0099bb);
+      color: #000; border: none; font-weight: 800; font-size: 1.1rem;
+      text-decoration: none; display: inline-flex; align-items: center;
+      justify-content: center; gap: .5rem; padding: 1.1rem 2rem;
+      border-radius: var(--radius); min-height: 60px;
+      touch-action: manipulation; transition: all var(--transition);
+      box-shadow: 0 4px 24px rgba(0,212,255,.3); width: 100%;
+    }
+    .btn-start:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,212,255,.45); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html">micro:bit</a>
+    <span class="sep">›</span>
+    <span class="current">Einführung</span>
+  </nav>
+
+  <section class="hero">
+    <img class="hero-robot"
+      src="Arbeitsblätter/Bilder/Buttons/microbit_roboter_ohne_BG.png"
+      alt="micro:bit Roboter">
+    <div class="hero-text">
+      <div class="hero-badge">Einführung</div>
+      <h1>Willkommen beim micro:bit!</h1>
+      <p class="hero-sub">Der micro:bit ist ein kleiner Computer mit LEDs, Sensoren und Funk — und du kannst ihn selbst programmieren.</p>
+    </div>
+  </section>
+
+  <div class="ziel">
+    <div class="ziel-inner">
+      <span class="ziel-icon">🎯</span>
+      <div>
+        <div class="ziel-label">Was du heute lernst</div>
+        <div class="ziel-text">Du lernst die Hardware des micro:bits kennen, verbindest ihn mit dem Computer und öffnest zum ersten Mal die Programmierumgebung MakeCode.</div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- Hardware Overview -->
+    <div class="steps" style="gap: 0">
+      <div class="step" style="border-radius: var(--radius) var(--radius) 0 0; border-bottom: none;">
+        <div class="step-num" style="background: linear-gradient(135deg,var(--purple),#4f46e5)">🔍</div>
+        <div class="step-body">
+          <div class="step-title">Was steckt drauf?</div>
+          <div class="step-desc">Sieh dir deinen micro:bit an und finde diese Teile:</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hardware-grid">
+      <div class="hw-item"><div class="hw-icon">💡</div><div class="hw-name">25 LEDs</div><div class="hw-desc">5×5 Display für Symbole, Zahlen &amp; Text</div></div>
+      <div class="hw-item"><div class="hw-icon">🔘</div><div class="hw-name">Knopf A &amp; B</div><div class="hw-desc">Zwei Taster auf der Vorderseite</div></div>
+      <div class="hw-item"><div class="hw-icon">🖐️</div><div class="hw-name">Touch-Logo</div><div class="hw-desc">Goldenes Logo — funktioniert als Button (V2)</div></div>
+      <div class="hw-item"><div class="hw-icon">🔌</div><div class="hw-name">USB-Anschluss</div><div class="hw-desc">Zum Verbinden mit dem Computer</div></div>
+      <div class="hw-item"><div class="hw-icon">🔋</div><div class="hw-name">Batterieanschluss</div><div class="hw-desc">Für kabellose Nutzung</div></div>
+      <div class="hw-item"><div class="hw-icon">🎤</div><div class="hw-name">Mikrofon</div><div class="hw-desc">Reagiert auf Geräusche (V2)</div></div>
+      <div class="hw-item"><div class="hw-icon">🔊</div><div class="hw-name">Lautsprecher</div><div class="hw-desc">Spielt Töne ab (V2)</div></div>
+      <div class="hw-item"><div class="hw-icon">📡</div><div class="hw-name">Funk &amp; Bluetooth</div><div class="hw-desc">Sendet Nachrichten an andere micro:bits</div></div>
+      <div class="hw-item"><div class="hw-icon">🧭</div><div class="hw-name">Kompass &amp; Lagesensor</div><div class="hw-desc">Erkennt Neigung und Erschütterung</div></div>
+      <div class="hw-item"><div class="hw-icon">🌡️</div><div class="hw-name">Temperatursensor</div><div class="hw-desc">Misst die Temperatur</div></div>
+    </div>
+
+    <!-- MakeCode Einführung -->
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">micro:bit verbinden</div>
+          <div class="step-desc">Stecke das <strong>USB-Kabel</strong> in den micro:bit und in den Computer. Der micro:bit erscheint als Laufwerk namens <strong>MICROBIT</strong> im Datei-Explorer.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">MakeCode öffnen</div>
+          <div class="step-desc">Öffne im Browser <strong>makecode.microbit.org</strong>. Klicke auf <strong>„Neues Projekt"</strong>. Du siehst den Block-Editor — hier programmierst du deinen micro:bit.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Die Oberfläche kennenlernen</div>
+          <div class="step-desc">Links: <strong>Simulator</strong> (zeigt deinen Code sofort). Mitte: <strong>Kategorien</strong> mit Blöcken. Rechts: <strong>Arbeitsbereich</strong> zum Zusammenbauen. Unten: <strong>„Herunterladen"</strong> zum Flashen.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">⚠️</div>
+        <div class="step-body">
+          <div class="step-title">Wichtig: Projekt speichern!</div>
+          <div class="step-desc">Programme werden <strong>nicht dauerhaft</strong> auf der Webseite gespeichert. Klicke auf das <strong>Disketten-Symbol</strong> oder lade die .hex-Datei auf deinen Computer herunter, um dein Projekt zu sichern.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MakeCode Screenshot -->
+    <div class="makecode-section">
+      <div class="section-header">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        <span>So sieht MakeCode aus</span>
+      </div>
+      <div style="padding: 1rem;">
+        <div class="makecode-screenshot">
+          <img src="Arbeitsblätter/Einführung/Arbeitsblatt - Makecode Oberfläche.png" alt="MakeCode Oberfläche Übersicht">
+        </div>
+      </div>
+    </div>
+
+    <div class="glow-divider"></div>
+
+    <div class="checklist-section">
+      <div class="checklist-title"><span>✅</span> Ich habe …</div>
+      <div class="checklist" id="checklist">
+        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">meinen micro:bit mit dem Computer verbunden</span></label>
+        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">makecode.microbit.org geöffnet und ein neues Projekt erstellt</span></label>
+        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">Simulator, Kategorien und Arbeitsbereich gefunden</span></label>
+        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">mindestens 5 Hardware-Teile an meinem micro:bit gefunden</span></label>
+      </div>
+      <div class="progress-row">
+        <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
+        <span class="progress-label" id="progressLabel">0 / 4</span>
+      </div>
+    </div>
+
+    <a href="aufgabe-1.html" class="btn-start">Los geht's — Aufgabe 1 starten <span class="arrow">→</span></a>
+
+  </main>
+
+  <script src="main.js"></script>
+</body>
+</html>

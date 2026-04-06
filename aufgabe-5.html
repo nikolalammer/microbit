@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aufgabe 5 – Funk | micro:bit</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="index.html">micro:bit</a>
+    <span class="sep">›</span>
+    <a href="aufgabe-4.html">Aufgabe 4</a>
+    <span class="sep">›</span>
+    <span class="current">Aufgabe 5 – Funk</span>
+  </nav>
+
+  <section class="hero">
+    <img class="hero-robot"
+      src="Arbeitsblätter/Bilder/Buttons/microbit_roboter_ohne_BG.png"
+      alt="micro:bit Roboter">
+    <div class="hero-text">
+      <div class="hero-badge">Level 1 · Aufgabe 5 von 5</div>
+      <h1>Funk</h1>
+      <p class="hero-sub">Sende Nachrichten kabellos von einem micro:bit zum anderen — wie ein echtes Funkgerät!</p>
+    </div>
+  </section>
+
+  <div class="ziel">
+    <div class="ziel-inner">
+      <span class="ziel-icon">🎯</span>
+      <div>
+        <div class="ziel-label">Lernziel</div>
+        <div class="ziel-text">Am Ende sendet ein micro:bit beim Knopfdruck eine Nachricht — und ein zweiter micro:bit empfängt sie und zeigt sie auf dem Display an.</div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+
+    <div class="info-banner">
+      <span style="font-size:1.3rem;flex-shrink:0">📡</span>
+      <div><strong>Wichtig:</strong> Für diese Aufgabe brauchst du <strong>zwei micro:bits</strong> — einen als Sender und einen als Empfänger. Arbeite mit einem Partner zusammen!</div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Funkgruppe festlegen</div>
+          <div class="step-desc">Öffne die Kategorie <strong>Funk</strong> und suche den Block <strong>„setze Funkgruppe auf"</strong>. Ziehe ihn in den <strong>„beim Start"</strong>-Block. Setze den Wert auf <strong>1</strong>. Beide micro:bits müssen dieselbe Gruppe haben!</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Sender programmieren</div>
+          <div class="step-desc">Füge einen <strong>„wenn Knopf A gedrückt"</strong>-Block ein. Darin kommt <strong>„sende Text über Funk"</strong> aus der Funk-Kategorie. Tippe deine Nachricht in das Textfeld (z.B. „Hallo!").</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Empfänger programmieren</div>
+          <div class="step-desc">Öffne ein <strong>zweites MakeCode-Fenster</strong> für den Empfänger. Setze auch hier die Funkgruppe auf <strong>1</strong>. Füge den Block <strong>„wenn Text empfangen"</strong> ein — darin kommt <strong>„zeige Text"</strong> mit der Variable <strong>„receivedString"</strong>.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Erweitern: Mehr Nachrichten</div>
+          <div class="step-desc">Füge beim Sender einen zweiten Block für <strong>Knopf B</strong> mit einer anderen Nachricht hinzu. Kannst du auch eine <strong>Zahl</strong> senden? (Tipp: „sende Zahl über Funk" + „wenn Zahl empfangen")</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="makecode-section">
+      <div class="section-header">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        <span>MakeCode Editor öffnen</span>
+      </div>
+      <div class="makecode-body">
+        <a href="https://makecode.microbit.org/" target="_blank" rel="noopener noreferrer" class="btn-makecode">
+          <svg width="22" height="22" viewBox="0 0 100 100" fill="none"><rect width="100" height="100" rx="18" fill="#fff"/><path d="M22 50L38 34L54 50L38 66L22 50Z" fill="#e63022"/><path d="M46 50L62 34L78 50L62 66L46 50Z" fill="#e63022" opacity=".6"/></svg>
+          In MakeCode öffnen
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+        <p class="makecode-note">Tipp: Öffne zwei Tabs — einen für Sender, einen für Empfänger.</p>
+      </div>
+    </div>
+
+    <div class="hint-section">
+
+      <button class="btn btn-tipp" id="btnTipp" aria-expanded="false" onclick="toggleTipp()">
+        <span>💡</span><span>Tipp anzeigen</span><span class="btn-icon">▾</span>
+      </button>
+      <div class="panel" id="panelTipp">
+        <div class="panel-inner">
+          <div class="panel-content tipp-content">
+            <ul>
+              <li>Beide micro:bits <strong>müssen dieselbe Funkgruppe</strong> haben — sonst empfangen sie sich nicht gegenseitig.</li>
+              <li>Der Block <strong>„wenn Text empfangen"</strong> erstellt automatisch die Variable <strong>„receivedString"</strong> — ziehe diese in den „zeige Text"-Block.</li>
+              <li>Fertige HEX-Dateien zum Vergleich findest du im Ordner <strong>Programme/</strong> des Projekts.</li>
+              <li>Die Reichweite des Funks beträgt ca. <strong>70 Meter</strong> — du musst also nicht nah beieinander sein!</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-loesung" id="btnLoesung" aria-expanded="false" disabled onclick="toggleLoesung()">
+        <span>🔓</span><span>Lösung anzeigen</span><span class="btn-icon">▾</span>
+      </button>
+      <div class="panel" id="panelLoesung">
+        <div class="panel-inner">
+          <div class="panel-content loesung-content">
+            <div class="loesung-warning">
+              <span>⚠️</span>
+              <span>Versuche es zuerst selbst — die Lösung ist nur zur Kontrolle!</span>
+            </div>
+
+            <div class="loesung-label">Sender – Code</div>
+            <div class="block-diagram">
+              <img src="Arbeitsblätter/Bilder/Buttons/beim_start.png" alt="beim Start" style="max-width:220px">
+              <div class="block-indent">
+                <img src="Arbeitsblätter/Bilder/Buttons/setze_funkgruppe.png" alt="setze Funkgruppe auf 1" style="max-width:240px">
+              </div>
+            </div>
+            <div class="block-diagram" style="margin-top:.75rem">
+              <img src="Arbeitsblätter/Bilder/Buttons/wenn_knopf_a_geklickt.png" alt="wenn Knopf A" style="max-width:280px">
+              <div class="block-indent">
+                <img src="Arbeitsblätter/Bilder/Buttons/sende_text_über_funk.png" alt="sende Text über Funk" style="max-width:280px">
+              </div>
+            </div>
+
+            <div class="loesung-label" style="margin-top:1rem">Empfänger – Code</div>
+            <div class="block-diagram">
+              <img src="Arbeitsblätter/Bilder/Buttons/wenn_text_empfangen.png" alt="wenn Text empfangen" style="max-width:280px">
+              <div class="block-indent">
+                <img src="Arbeitsblätter/Bilder/Buttons/zeige_text.png" alt="zeige Text" style="max-width:240px">
+              </div>
+            </div>
+
+            <div class="loesung-note">✨ Die Variable „receivedString" enthält die empfangene Nachricht — ziehe sie in den „zeige Text"-Block.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="glow-divider"></div>
+
+    <div class="checklist-section">
+      <div class="checklist-title"><span>✅</span> Ich habe …</div>
+      <div class="checklist" id="checklist">
+        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">auf beiden micro:bits dieselbe Funkgruppe gesetzt</span></label>
+        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">den Sender mit „sende Text über Funk" programmiert</span></label>
+        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">den Empfänger mit „wenn Text empfangen" programmiert</span></label>
+        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">eine Nachricht erfolgreich von einem micro:bit zum anderen gesendet</span></label>
+      </div>
+      <div class="progress-row">
+        <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
+        <span class="progress-label" id="progressLabel">0 / 4</span>
+      </div>
+    </div>
+
+    <a href="index.html" class="btn-next" style="background:linear-gradient(135deg,var(--purple),#4f46e5)">
+      🎉 Level 1 abgeschlossen — zurück zur Startseite <span class="arrow">→</span>
+    </a>
+
+  </main>
+
+  <script src="main.js"></script>
+</body>
+</html>

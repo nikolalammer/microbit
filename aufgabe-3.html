@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aufgabe 1 – Erste Schritte | micro:bit</title>
+  <title>Aufgabe 3 – Eingabe | micro:bit</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,7 +11,9 @@
   <nav>
     <a href="index.html">micro:bit</a>
     <span class="sep">›</span>
-    <span class="current">Aufgabe 1 – Erste Schritte</span>
+    <a href="aufgabe-2.html">Aufgabe 2</a>
+    <span class="sep">›</span>
+    <span class="current">Aufgabe 3 – Eingabe</span>
   </nav>
 
   <section class="hero">
@@ -19,9 +21,9 @@
       src="Arbeitsblätter/Bilder/Buttons/microbit_roboter_ohne_BG.png"
       alt="micro:bit Roboter">
     <div class="hero-text">
-      <div class="hero-badge">Level 1 · Aufgabe 1 von 5</div>
-      <h1>Erste Schritte</h1>
-      <p class="hero-sub">Öffne MakeCode, programmiere dein erstes Symbol und lass es auf dem micro:bit leuchten.</p>
+      <div class="hero-badge">Level 1 · Aufgabe 3 von 5</div>
+      <h1>Eingabe</h1>
+      <p class="hero-sub">Mach deinen micro:bit interaktiv — reagiere auf Knopfdruck mit Bildern und Symbolen.</p>
     </div>
   </section>
 
@@ -30,7 +32,7 @@
       <span class="ziel-icon">🎯</span>
       <div>
         <div class="ziel-label">Lernziel</div>
-        <div class="ziel-text">Am Ende leuchtet ein selbst gewähltes Symbol auf dem 5×5-LED-Display deines micro:bits — und du weißt, wie du ein MakeCode-Programm schreibst, herunterlädst und flasht.</div>
+        <div class="ziel-text">Am Ende zeigt dein micro:bit bei Druck auf Knopf A ein Bild, bei Knopf B ein anderes — und bei A+B zusammen etwas Besonderes.</div>
       </div>
     </div>
   </div>
@@ -41,29 +43,29 @@
       <div class="step">
         <div class="step-num">1</div>
         <div class="step-body">
-          <div class="step-title">MakeCode öffnen</div>
-          <div class="step-desc">Gehe auf <strong>makecode.microbit.org</strong> und erstelle ein <strong>neues Projekt</strong>. Du siehst den Block-Editor mit dem micro:bit-Simulator auf der linken Seite.</div>
+          <div class="step-title">Buttons kennenlernen</div>
+          <div class="step-desc">Der micro:bit hat <strong>Knopf A</strong> (links), <strong>Knopf B</strong> (rechts) und die Kombination <strong>A+B</strong>. Du kannst auf jeden einzeln reagieren — das ergibt drei verschiedene Eingaben!</div>
         </div>
       </div>
       <div class="step">
         <div class="step-num">2</div>
         <div class="step-body">
-          <div class="step-title">Block hinzufügen</div>
-          <div class="step-desc">Klicke in der Kategorie <strong>Grundlagen</strong> auf <strong>„zeige Symbol"</strong>. Ziehe den Block in den <strong>„beim Start"</strong>-Block in der Mitte. Wähle ein beliebiges Symbol aus dem Menü.</div>
+          <div class="step-title">Eingabe-Block einfügen</div>
+          <div class="step-desc">Klicke auf die Kategorie <strong>Eingabe</strong> und ziehe den Block <strong>„wenn Knopf A gedrückt"</strong> in den Arbeitsbereich. Füge darin einen <strong>„zeige LEDs"</strong>-Block ein und male ein Muster.</div>
         </div>
       </div>
       <div class="step">
         <div class="step-num">3</div>
         <div class="step-body">
-          <div class="step-title">Herunterladen &amp; flashen</div>
-          <div class="step-desc">Verbinde den micro:bit mit dem <strong>USB-Kabel</strong>. Klicke auf <strong>„Herunterladen"</strong> (Pfeil nach unten). Kopiere die .hex-Datei auf das MICROBIT-Laufwerk — das Symbol erscheint sofort!</div>
+          <div class="step-title">Ausprobieren</div>
+          <div class="step-desc">Flashe den Code auf den micro:bit. Drücke <strong>Knopf A</strong> — dein Muster erscheint! Im Simulator kannst du den Knopf auch direkt anklicken und testen, ohne zu flashen.</div>
         </div>
       </div>
       <div class="step">
         <div class="step-num">4</div>
         <div class="step-body">
-          <div class="step-title">Erweitern: Animation</div>
-          <div class="step-desc">Rechtsklick auf den Block → <strong>„Duplizieren"</strong>. Füge mehrere „zeige Symbol"-Blöcke hintereinander ein, wähle je ein anderes Symbol — schon hast du eine Animation!</div>
+          <div class="step-title">Erweitern: Knopf B &amp; A+B</div>
+          <div class="step-desc">Füge einen zweiten <strong>„wenn Knopf B gedrückt"</strong>-Block hinzu — mit einem anderen Bild. Dann noch einen für <strong>A+B</strong>. Drei Knöpfe, drei verschiedene Reaktionen!</div>
         </div>
       </div>
     </div>
@@ -81,7 +83,7 @@
           In MakeCode öffnen
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         </a>
-        <p class="makecode-note">Öffnet makecode.microbit.org in einem neuen Tab — kein Login nötig, sofort loslegen.</p>
+        <p class="makecode-note">Öffnet makecode.microbit.org in einem neuen Tab — kein Login nötig.</p>
       </div>
     </div>
 
@@ -94,10 +96,10 @@
         <div class="panel-inner">
           <div class="panel-content tipp-content">
             <ul>
-              <li>Den Block <strong>„zeige Symbol"</strong> findest du unter <strong>Grundlagen</strong> (blaue Kategorie).</li>
-              <li>Der <strong>„beim Start"</strong>-Block ist bereits im Editor — du musst ihn nicht suchen.</li>
-              <li>Der Simulator auf der linken Seite zeigt das Symbol sofort — ohne Flashen testbar.</li>
-              <li>Für die Animation: Blöcke werden von <strong>oben nach unten</strong> abgearbeitet.</li>
+              <li>Den Block <strong>„wenn Knopf A gedrückt"</strong> findest du in der Kategorie <strong>Eingabe</strong> (magentafarben).</li>
+              <li>Klicke auf das Dropdown im Block, um zwischen <strong>A</strong>, <strong>B</strong> und <strong>A+B</strong> zu wechseln.</li>
+              <li><strong>„zeige LEDs"</strong> ist unter <strong>Grundlagen</strong> — klicke auf die kleinen Quadrate, um Pixel an- oder auszuschalten.</li>
+              <li>Du kannst mehrere Eingabe-Blöcke gleichzeitig im Arbeitsbereich haben — sie laufen unabhängig voneinander.</li>
             </ul>
           </div>
         </div>
@@ -115,12 +117,12 @@
             </div>
             <div class="loesung-label">So sieht der fertige Code aus</div>
             <div class="block-diagram">
-              <img src="Arbeitsblätter/Bilder/Buttons/beim_start.png" alt="beim Start Block" style="max-width:220px">
+              <img src="Arbeitsblätter/Bilder/Buttons/wenn_knopf_a_geklickt.png" alt="wenn Knopf A gedrückt" style="max-width:280px">
               <div class="block-indent">
-                <img src="Arbeitsblätter/Bilder/Buttons/zeige symbol.png" alt="zeige Symbol Block" style="max-width:280px">
+                <img src="Arbeitsblätter/Bilder/Buttons/zeige_leds.png" alt="zeige LEDs Block" style="max-width:160px">
               </div>
             </div>
-            <div class="loesung-note">✨ Animation: Mehrere „zeige Symbol"-Blöcke untereinander im „beim Start"-Block — einen pro Frame.</div>
+            <div class="loesung-note">✨ Erweiterung: Dupliziere den Eingabe-Block (Rechtsklick → Duplizieren), ändere das Dropdown auf B und male ein anderes Muster. Gleich nochmal für A+B!</div>
           </div>
         </div>
       </div>
@@ -132,10 +134,10 @@
     <div class="checklist-section">
       <div class="checklist-title"><span>✅</span> Ich habe …</div>
       <div class="checklist" id="checklist">
-        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">MakeCode geöffnet und ein neues Projekt erstellt</span></label>
-        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">einen „zeige Symbol"-Block in „beim Start" eingefügt</span></label>
-        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">den Code heruntergeladen und auf dem micro:bit geflasht</span></label>
-        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">eine Animation mit mehreren Symbolen programmiert</span></label>
+        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">den „wenn Knopf A gedrückt"-Block in MakeCode gefunden</span></label>
+        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">einen „zeige LEDs"-Block mit einem Muster eingefügt</span></label>
+        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">den Code geflasht und Knopf A auf dem micro:bit gedrückt</span></label>
+        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">auch Knopf B und A+B mit eigenen Reaktionen belegt</span></label>
       </div>
       <div class="progress-row">
         <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
@@ -143,7 +145,7 @@
       </div>
     </div>
 
-    <a href="aufgabe-2.html" class="btn-next">Nächste Aufgabe: Text anzeigen <span class="arrow">→</span></a>
+    <a href="aufgabe-4.html" class="btn-next">Nächste Aufgabe: Zufall <span class="arrow">→</span></a>
 
   </main>
 

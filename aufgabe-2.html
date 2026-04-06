@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aufgabe 1 – Erste Schritte | micro:bit</title>
+  <title>Aufgabe 2 – Text anzeigen | micro:bit</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,7 +11,9 @@
   <nav>
     <a href="index.html">micro:bit</a>
     <span class="sep">›</span>
-    <span class="current">Aufgabe 1 – Erste Schritte</span>
+    <a href="aufgabe-1.html">Aufgabe 1</a>
+    <span class="sep">›</span>
+    <span class="current">Aufgabe 2 – Text anzeigen</span>
   </nav>
 
   <section class="hero">
@@ -19,9 +21,9 @@
       src="Arbeitsblätter/Bilder/Buttons/microbit_roboter_ohne_BG.png"
       alt="micro:bit Roboter">
     <div class="hero-text">
-      <div class="hero-badge">Level 1 · Aufgabe 1 von 5</div>
-      <h1>Erste Schritte</h1>
-      <p class="hero-sub">Öffne MakeCode, programmiere dein erstes Symbol und lass es auf dem micro:bit leuchten.</p>
+      <div class="hero-badge">Level 1 · Aufgabe 2 von 5</div>
+      <h1>Text anzeigen</h1>
+      <p class="hero-sub">Lass deinen Namen und Zahlen über das LED-Display laufen — und kombiniere mehrere Texte zu einer Nachricht.</p>
     </div>
   </section>
 
@@ -30,7 +32,7 @@
       <span class="ziel-icon">🎯</span>
       <div>
         <div class="ziel-label">Lernziel</div>
-        <div class="ziel-text">Am Ende leuchtet ein selbst gewähltes Symbol auf dem 5×5-LED-Display deines micro:bits — und du weißt, wie du ein MakeCode-Programm schreibst, herunterlädst und flasht.</div>
+        <div class="ziel-text">Am Ende scrollt dein Name dauerhaft über das Display des micro:bits, und du kannst Text und Zahlen beliebig kombinieren.</div>
       </div>
     </div>
   </div>
@@ -41,29 +43,29 @@
       <div class="step">
         <div class="step-num">1</div>
         <div class="step-body">
-          <div class="step-title">MakeCode öffnen</div>
-          <div class="step-desc">Gehe auf <strong>makecode.microbit.org</strong> und erstelle ein <strong>neues Projekt</strong>. Du siehst den Block-Editor mit dem micro:bit-Simulator auf der linken Seite.</div>
+          <div class="step-title">Neues Projekt öffnen</div>
+          <div class="step-desc">Öffne <strong>makecode.microbit.org</strong> und erstelle ein <strong>neues Projekt</strong>. Du siehst bereits den <strong>„beim Start"</strong> und <strong>„dauerhaft"</strong>-Block im Arbeitsbereich.</div>
         </div>
       </div>
       <div class="step">
         <div class="step-num">2</div>
         <div class="step-body">
-          <div class="step-title">Block hinzufügen</div>
-          <div class="step-desc">Klicke in der Kategorie <strong>Grundlagen</strong> auf <strong>„zeige Symbol"</strong>. Ziehe den Block in den <strong>„beim Start"</strong>-Block in der Mitte. Wähle ein beliebiges Symbol aus dem Menü.</div>
+          <div class="step-title">Text-Block einfügen</div>
+          <div class="step-desc">Klicke auf <strong>Grundlagen</strong> und suche den Block <strong>„zeige Text"</strong>. Ziehe ihn in den <strong>„dauerhaft"</strong>-Block. Tippe deinen Namen in das weiße Textfeld des Blocks.</div>
         </div>
       </div>
       <div class="step">
         <div class="step-num">3</div>
         <div class="step-body">
           <div class="step-title">Herunterladen &amp; flashen</div>
-          <div class="step-desc">Verbinde den micro:bit mit dem <strong>USB-Kabel</strong>. Klicke auf <strong>„Herunterladen"</strong> (Pfeil nach unten). Kopiere die .hex-Datei auf das MICROBIT-Laufwerk — das Symbol erscheint sofort!</div>
+          <div class="step-desc">Verbinde den micro:bit mit dem <strong>USB-Kabel</strong> und klicke auf <strong>„Herunterladen"</strong>. Dein Name scrollt jetzt endlos über das Display!</div>
         </div>
       </div>
       <div class="step">
         <div class="step-num">4</div>
         <div class="step-body">
-          <div class="step-title">Erweitern: Animation</div>
-          <div class="step-desc">Rechtsklick auf den Block → <strong>„Duplizieren"</strong>. Füge mehrere „zeige Symbol"-Blöcke hintereinander ein, wähle je ein anderes Symbol — schon hast du eine Animation!</div>
+          <div class="step-title">Erweitern: Text + Zahl</div>
+          <div class="step-desc">Füge unter deinem Namen-Block einen <strong>„zeige Zahl"</strong>-Block hinzu. Gib eine Zahl ein. Kombiniere mehrere Texte — der micro:bit zeigt sie nacheinander an!</div>
         </div>
       </div>
     </div>
@@ -81,7 +83,7 @@
           In MakeCode öffnen
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         </a>
-        <p class="makecode-note">Öffnet makecode.microbit.org in einem neuen Tab — kein Login nötig, sofort loslegen.</p>
+        <p class="makecode-note">Öffnet makecode.microbit.org in einem neuen Tab — kein Login nötig.</p>
       </div>
     </div>
 
@@ -94,10 +96,10 @@
         <div class="panel-inner">
           <div class="panel-content tipp-content">
             <ul>
-              <li>Den Block <strong>„zeige Symbol"</strong> findest du unter <strong>Grundlagen</strong> (blaue Kategorie).</li>
-              <li>Der <strong>„beim Start"</strong>-Block ist bereits im Editor — du musst ihn nicht suchen.</li>
-              <li>Der Simulator auf der linken Seite zeigt das Symbol sofort — ohne Flashen testbar.</li>
-              <li>Für die Animation: Blöcke werden von <strong>oben nach unten</strong> abgearbeitet.</li>
+              <li><strong>„dauerhaft"</strong> bedeutet: Der Code darin läuft in einer Endlos-Schleife — genau richtig für laufenden Text.</li>
+              <li><strong>„zeige Text"</strong> ist anders als <strong>„zeige Symbol"</strong> — achte auf den richtigen Block!</li>
+              <li>Der <strong>„zeige Zahl"</strong>-Block ist direkt darunter in der Kategorie <strong>Grundlagen</strong>.</li>
+              <li>Mehrere Blöcke im „dauerhaft"-Block werden nacheinander abgespielt.</li>
             </ul>
           </div>
         </div>
@@ -115,12 +117,15 @@
             </div>
             <div class="loesung-label">So sieht der fertige Code aus</div>
             <div class="block-diagram">
-              <img src="Arbeitsblätter/Bilder/Buttons/beim_start.png" alt="beim Start Block" style="max-width:220px">
+              <img src="Arbeitsblätter/Bilder/Buttons/dauerhaft.png" alt="dauerhaft Block" style="max-width:200px">
               <div class="block-indent">
-                <img src="Arbeitsblätter/Bilder/Buttons/zeige symbol.png" alt="zeige Symbol Block" style="max-width:280px">
+                <img src="Arbeitsblätter/Bilder/Buttons/zeige_text.png" alt="zeige Text Block" style="max-width:280px">
+              </div>
+              <div class="block-indent">
+                <img src="Arbeitsblätter/Bilder/Buttons/zeige_Zahl.png" alt="zeige Zahl Block" style="max-width:200px">
               </div>
             </div>
-            <div class="loesung-note">✨ Animation: Mehrere „zeige Symbol"-Blöcke untereinander im „beim Start"-Block — einen pro Frame.</div>
+            <div class="loesung-note">✨ Erweiterung: Füge mehrere „zeige Text"-Blöcke ein — z.B. deinen Vornamen, dann Nachnamen, dann eine Zahl.</div>
           </div>
         </div>
       </div>
@@ -132,10 +137,10 @@
     <div class="checklist-section">
       <div class="checklist-title"><span>✅</span> Ich habe …</div>
       <div class="checklist" id="checklist">
-        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">MakeCode geöffnet und ein neues Projekt erstellt</span></label>
-        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">einen „zeige Symbol"-Block in „beim Start" eingefügt</span></label>
-        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">den Code heruntergeladen und auf dem micro:bit geflasht</span></label>
-        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">eine Animation mit mehreren Symbolen programmiert</span></label>
+        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">einen „zeige Text"-Block im „dauerhaft"-Block platziert</span></label>
+        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">meinen Namen als Text eingegeben</span></label>
+        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">den Code geflasht und meinen Namen am Display gesehen</span></label>
+        <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">einen „zeige Zahl"-Block hinzugefügt</span></label>
       </div>
       <div class="progress-row">
         <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
@@ -143,7 +148,7 @@
       </div>
     </div>
 
-    <a href="aufgabe-2.html" class="btn-next">Nächste Aufgabe: Text anzeigen <span class="arrow">→</span></a>
+    <a href="aufgabe-3.html" class="btn-next">Nächste Aufgabe: Eingabe <span class="arrow">→</span></a>
 
   </main>
 
