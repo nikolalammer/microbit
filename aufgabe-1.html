@@ -243,13 +243,71 @@
       color: var(--subtext);
     }
 
-    .makecode-frame {
-      width: 100%;
-      height: 500px;
-      border: none;
-      display: block;
-      background: #1e1e2e;
+    .makecode-body {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
     }
+
+    .btn-makecode {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 1rem 2rem;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, #1a73e8, #0d47a1);
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-decoration: none;
+      border: none;
+      min-height: 56px;
+      touch-action: manipulation;
+      transition: all var(--transition);
+      box-shadow: 0 4px 20px rgba(26, 115, 232, 0.35);
+      width: 100%;
+    }
+    .btn-makecode:hover, .btn-makecode:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(26, 115, 232, 0.5);
+    }
+    .btn-makecode svg { flex-shrink: 0; }
+
+    .makecode-note {
+      font-size: 0.82rem;
+      color: var(--subtext);
+      text-align: center;
+    }
+
+    .makecode-preview-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--subtext);
+      margin-bottom: 0.5rem;
+    }
+
+    .makecode-preview {
+      background: #2c2c3e;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .makecode-preview img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+    }
+
+    .preview-indent { margin-left: 1.25rem; }
 
     /* ── Tipp & Lösung ── */
     .hint-section {
@@ -521,7 +579,7 @@
       .ziel { padding: 0 1rem; }
       .step { grid-template-columns: 2rem 1fr; gap: 0.5rem 0.75rem; padding: 1rem; }
       .step-num { width: 2rem; height: 2rem; font-size: 0.85rem; }
-      .makecode-frame { height: 380px; }
+      .makecode-body { padding: 1rem; }
     }
   </style>
 </head>
@@ -624,21 +682,59 @@
 
     </div>
 
-    <!-- MakeCode Embed -->
+    <!-- MakeCode -->
     <div class="makecode-section">
       <div class="section-header">
         <span class="dot dot-red"></span>
         <span class="dot dot-yellow"></span>
         <span class="dot dot-green"></span>
-        <span>MakeCode Editor – probiere es direkt hier aus</span>
+        <span>MakeCode – Editor öffnen</span>
       </div>
-      <iframe
-        class="makecode-frame"
-        src="https://makecode.microbit.org/#pub:"
-        title="MakeCode micro:bit Editor"
-        allowfullscreen
-        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-      ></iframe>
+      <div class="makecode-body">
+
+        <a
+          href="https://makecode.microbit.org/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-makecode"
+        >
+          <!-- MakeCode Logo -->
+          <svg width="22" height="22" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100" height="100" rx="18" fill="#fff"/>
+            <path d="M22 50L38 34L54 50L38 66L22 50Z" fill="#e63022"/>
+            <path d="M46 50L62 34L78 50L62 66L46 50Z" fill="#e63022" opacity=".6"/>
+          </svg>
+          In MakeCode öffnen
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </a>
+
+        <p class="makecode-note">
+          Öffnet makecode.microbit.org in einem neuen Tab — kein Login nötig, sofort loslegen.
+        </p>
+
+        <div>
+          <div class="makecode-preview-label">Vorschau: So sieht dein fertiger Code aus</div>
+          <div class="makecode-preview">
+            <img
+              src="Arbeitsblätter/Bilder/Buttons/beim_start.png"
+              alt="beim Start Block"
+              style="max-width: 220px;"
+            >
+            <div class="preview-indent">
+              <img
+                src="Arbeitsblätter/Bilder/Buttons/zeige symbol.png"
+                alt="zeige Symbol Block"
+                style="max-width: 280px;"
+              >
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
 
     <!-- Tipp & Lösung -->
