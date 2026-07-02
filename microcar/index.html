@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MicroCar – Ferngesteuertes Auto | micro:bit</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    /* ── MicroCar Anpassungen ── */
+    :root {
+      --accent:    #ef4444;
+      --accent-dim:#b91c1c;
+    }
+
+    /* Phase-System */
+    .phase-badge {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-size: .72rem; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; padding: .25rem .7rem;
+      border-radius: 999px; margin-bottom: .75rem;
+    }
+    .phase-badge-1 {
+      background: rgba(251,146,60,.12);
+      border: 1px solid rgba(251,146,60,.35);
+      color: #fb923c;
+    }
+    .phase-badge-2 {
+      background: rgba(239,68,68,.12);
+      border: 1px solid rgba(239,68,68,.35);
+      color: var(--accent);
+    }
+
+    .phase-header {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .phase-num {
+      width: 2.5rem; height: 2.5rem; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1rem; color: #fff; flex-shrink: 0;
+    }
+    .phase-num-1 { background: linear-gradient(135deg, #fb923c, #ea580c); }
+    .phase-num-2 { background: linear-gradient(135deg, var(--accent), var(--purple)); }
+    .phase-header-text h2 { font-size: 1.2rem; font-weight: 800; color: #fff; margin-bottom: .1rem; }
+    .phase-header-text p  { font-size: .85rem; color: var(--subtext); }
+
+    /* Bauteilliste */
+    .bauteil-list { display: flex; flex-direction: column; gap: .5rem; margin-bottom: 1.25rem; }
+    .bauteil-item {
+      display: flex; align-items: center; gap: .9rem;
+      padding: .7rem 1rem; border-radius: 10px;
+      background: var(--surface2); border: 1px solid var(--border);
+      cursor: pointer; transition: all var(--transition); user-select: none;
+    }
+    .bauteil-item:hover { border-color: #fb923c; background: rgba(251,146,60,.06); }
+    .bauteil-item input[type="checkbox"] { display: none; }
+    .bauteil-check {
+      width: 22px; height: 22px; border-radius: 6px;
+      border: 2px solid var(--border); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: all var(--transition);
+    }
+    .bauteil-item:has(input:checked) .bauteil-check {
+      background: #fb923c; border-color: #fb923c;
+    }
+    .bauteil-item:has(input:checked) .bauteil-check::after {
+      content: '✓'; color: #fff; font-size: .8rem; font-weight: 800;
+    }
+    .bauteil-item:has(input:checked) .bauteil-label { color: var(--subtext); text-decoration: line-through; }
+    .bauteil-icon { font-size: 1.2rem; }
+    .bauteil-label { font-size: .92rem; flex: 1; }
+    .bauteil-detail { font-size: .75rem; color: var(--subtext); margin-top: .1rem; }
+
+    /* Schaltplan */
+    .schaltplan {
+      background: #0a0a1a;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .sp-label {
+      font-size: .72rem; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--subtext); margin-bottom: .75rem;
+    }
+    .sp-diagram {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      overflow-x: auto;
+      padding-bottom: .5rem;
+    }
+    .sp-chip {
+      background: var(--surface2);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: .75rem;
+      min-width: 120px;
+      flex-shrink: 0;
+    }
+    .sp-chip-title {
+      font-size: .75rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: .06em; text-align: center; margin-bottom: .6rem;
+    }
+    .sp-chip.microbit .sp-chip-title { color: var(--accent); }
+    .sp-chip.servo .sp-chip-title { color: #fbbf24; }
+    .sp-pin-row {
+      display: flex; align-items: center;
+      padding: .3rem .4rem; border-radius: 6px;
+      margin-bottom: .25rem; gap: .5rem;
+    }
+    .sp-pin-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .pin-red    { background: #ef4444; }
+    .pin-black  { background: #6b7280; }
+    .pin-orange { background: #f97316; }
+    .sp-pin-name { font-size: .82rem; font-weight: 700; color: #fff; }
+    .sp-pin-label { font-size: .72rem; color: var(--subtext); }
+
+    /* Kabel-Brücken */
+    .sp-cables {
+      flex: 1;
+      display: flex; flex-direction: column;
+      gap: .55rem;
+      padding: 0 .75rem;
+      margin-top: .3rem;
+    }
+    .sp-cable {
+      display: flex; align-items: center; gap: .4rem;
+      font-size: .78rem; font-weight: 600;
+    }
+    .cable-line {
+      flex: 1; height: 3px; border-radius: 999px;
+      position: relative;
+    }
+    .cable-line::after {
+      content: '›';
+      position: absolute; right: -4px; top: -7px;
+      font-size: .9rem; line-height: 1;
+    }
+    .cable-red    { background: #ef4444; color: #ef4444; }
+    .cable-black  { background: #6b7280; color: #6b7280; }
+    .cable-orange { background: #f97316; color: #f97316; }
+
+    .sp-servos { display: flex; flex-direction: column; gap: .75rem; flex-shrink: 0; }
+
+    /* Schritt-für-Schritt Verkabelung */
+    .wire-steps { display: flex; flex-direction: column; gap: .75rem; }
+    .wire-step {
+      display: flex; align-items: flex-start; gap: .75rem;
+      padding: .9rem 1rem; border-radius: 10px;
+      background: var(--surface2); border: 1px solid var(--border);
+    }
+    .wire-dot {
+      width: 18px; height: 18px; border-radius: 50%;
+      flex-shrink: 0; margin-top: .15rem;
+    }
+    .wire-text { font-size: .9rem; color: var(--text); }
+    .wire-text strong { font-weight: 700; }
+    .wire-text code {
+      background: rgba(255,255,255,.08); border-radius: 4px;
+      padding: .1rem .35rem; font-size: .85rem; font-family: monospace;
+      color: var(--accent);
+    }
+
+    /* Hardware-fertig Button */
+    .btn-hardware {
+      background: linear-gradient(135deg, #fb923c, #ea580c);
+      color: #fff; border: none; font-weight: 800; font-size: 1.05rem;
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: .6rem; padding: 1rem 2rem; border-radius: var(--radius);
+      min-height: 56px; touch-action: manipulation;
+      transition: all var(--transition); width: 100%;
+      box-shadow: 0 4px 20px rgba(251,146,60,.3); cursor: pointer;
+    }
+    .btn-hardware:hover:not(:disabled) {
+      transform: translateY(-2px); box-shadow: 0 8px 32px rgba(251,146,60,.45);
+    }
+    .btn-hardware:disabled {
+      background: var(--success); box-shadow: 0 4px 20px rgba(16,185,129,.3);
+      cursor: default; transform: none;
+    }
+
+    /* Phase 2 */
+    #phase2 { display: none; flex-direction: column; gap: 1.75rem; }
+    #phase2.visible {
+      display: flex;
+      animation: phaseIn .5s ease forwards;
+    }
+    @keyframes phaseIn {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Programm-Trenner (zwei Programme: Fernbedienung + Auto) */
+    .prog-divider {
+      display: flex; align-items: center; gap: .75rem;
+      margin: .5rem 0 -.75rem;
+    }
+    .prog-divider .prog-chip {
+      font-size: .78rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: .06em; color: var(--accent);
+      background: rgba(239,68,68,.1); border: 1px solid rgba(239,68,68,.3);
+      border-radius: 999px; padding: .3rem .8rem; white-space: nowrap;
+    }
+    .prog-divider .prog-line { flex: 1; height: 1px; background: var(--border); }
+
+    /* Schema-Bild */
+    .schema-img {
+      border-radius: var(--radius); border: 1px solid var(--border);
+      overflow: hidden; background: #fff;
+    }
+    .schema-img img { width: 100%; height: auto; display: block; }
+
+    @media (max-width: 520px) {
+      .sp-diagram { flex-direction: column; align-items: stretch; }
+      .sp-cables { flex-direction: row; padding: .5rem 0; justify-content: space-around; }
+      .cable-line { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html">micro:bit</a>
+    <span class="sep">›</span>
+    <a href="../index.html#lernboxen">Lernboxen</a>
+    <span class="sep">›</span>
+    <span class="current">MicroCar – Ferngesteuertes Auto</span>
+  </nav>
+
+  <section class="hero">
+    <img class="hero-robot"
+      src="../Arbeitsblätter/Bilder/Buttons/microbit_roboter_ohne_BG.png"
+      alt="micro:bit Roboter"
+      style="filter: drop-shadow(0 0 20px rgba(239,68,68,.4));">
+    <div class="hero-text">
+      <div class="hero-badge" style="background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3)">🏎️ Lernbox</div>
+      <h1>MicroCar</h1>
+      <p class="hero-sub">Baue dein eigenes ferngesteuertes Auto! Zwei Servomotoren treiben die Räder an — und ein zweiter micro:bit wird zur Funk-Fernbedienung.</p>
+    </div>
+  </section>
+
+  <div class="ziel">
+    <div class="ziel-inner">
+      <span class="ziel-icon">🎯</span>
+      <div>
+        <div class="ziel-label">Lernziel</div>
+        <div class="ziel-text">Am Ende steuerst du dein selbstgebautes Auto kabellos über Funk: Knopf A fährt vor, Knopf B fährt zurück, A+B stoppt das Auto.</div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- ════════════════════════════════════
+         PHASE 1: Hardware aufbauen
+         ════════════════════════════════════ -->
+    <div id="phase1" style="display:flex;flex-direction:column;gap:1.75rem">
+
+      <div>
+        <div class="phase-header">
+          <div class="phase-num phase-num-1">1</div>
+          <div class="phase-header-text">
+            <h2>Hardware aufbauen</h2>
+            <p>Sammle alle Bauteile und baue das Auto zusammen.</p>
+          </div>
+        </div>
+
+        <!-- Bauteilliste -->
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem">
+          <div class="sp-label">📦 Bauteilliste — hake ab was du hast</div>
+          <div class="bauteil-list" id="bauteilList">
+
+            <label class="bauteil-item">
+              <input type="checkbox" onchange="checkBauteile()">
+              <span class="bauteil-check"></span>
+              <span class="bauteil-icon">🖥️</span>
+              <div>
+                <div class="bauteil-label">2× BBC micro:bit V2</div>
+                <div class="bauteil-detail">Einer wird das Auto, einer die Fernbedienung</div>
+              </div>
+            </label>
+
+            <label class="bauteil-item">
+              <input type="checkbox" onchange="checkBauteile()">
+              <span class="bauteil-check"></span>
+              <span class="bauteil-icon">⚡</span>
+              <div>
+                <div class="bauteil-label">Breakout-Board</div>
+                <div class="bauteil-detail">Damit du an die Pins des Auto-micro:bit kommst</div>
+              </div>
+            </label>
+
+            <label class="bauteil-item">
+              <input type="checkbox" onchange="checkBauteile()">
+              <span class="bauteil-check"></span>
+              <span class="bauteil-icon">⚙️</span>
+              <div>
+                <div class="bauteil-label">2× Continuous-Servo (360°)</div>
+                <div class="bauteil-detail">Die Motoren für die Räder — links und rechts</div>
+              </div>
+            </label>
+
+            <label class="bauteil-item">
+              <input type="checkbox" onchange="checkBauteile()">
+              <span class="bauteil-check"></span>
+              <span class="bauteil-icon">🚗</span>
+              <div>
+                <div class="bauteil-label">Fahrzeug-Chassis</div>
+                <div class="bauteil-detail">Karton, Lego oder 3D-Druck — plus Räder</div>
+              </div>
+            </label>
+
+            <label class="bauteil-item">
+              <input type="checkbox" onchange="checkBauteile()">
+              <span class="bauteil-check"></span>
+              <span class="bauteil-icon">🔩</span>
+              <div>
+                <div class="bauteil-label">Motorhalterung oder Klebeband</div>
+                <div class="bauteil-detail">Um die Servos am Chassis zu befestigen</div>
+              </div>
+            </label>
+
+            <label class="bauteil-item">
+              <input type="checkbox" onchange="checkBauteile()">
+              <span class="bauteil-check"></span>
+              <span class="bauteil-icon">🔋</span>
+              <div>
+                <div class="bauteil-label">2× Stromversorgung</div>
+                <div class="bauteil-detail">USB-Kabel oder Batteriepack für beide micro:bits</div>
+              </div>
+            </label>
+
+          </div>
+
+          <div class="progress-row">
+            <div class="progress-bar-bg" style="--c:#fb923c">
+              <div class="progress-bar-fill" id="bauteilFill" style="background:linear-gradient(90deg,#fb923c,#f97316)"></div>
+            </div>
+            <span class="progress-label" id="bauteilLabel">0 / 6</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Schaltplan -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem">
+        <div class="sp-label">🔌 Schaltplan — so werden die Servos verbunden</div>
+
+        <div class="schaltplan">
+          <div class="sp-diagram">
+
+            <!-- micro:bit im Breakout-Board -->
+            <div class="sp-chip microbit">
+              <div class="sp-chip-title">micro:bit (Auto)</div>
+              <div class="sp-pin-row">
+                <div class="sp-pin-dot pin-orange"></div>
+                <div><div class="sp-pin-name">P1</div><div class="sp-pin-label">Signal Servo links</div></div>
+              </div>
+              <div class="sp-pin-row">
+                <div class="sp-pin-dot pin-orange"></div>
+                <div><div class="sp-pin-name">P2</div><div class="sp-pin-label">Signal Servo rechts</div></div>
+              </div>
+              <div class="sp-pin-row">
+                <div class="sp-pin-dot pin-red"></div>
+                <div><div class="sp-pin-name">V (5V)</div><div class="sp-pin-label">Stromversorgung</div></div>
+              </div>
+              <div class="sp-pin-row">
+                <div class="sp-pin-dot pin-black"></div>
+                <div><div class="sp-pin-name">GND</div><div class="sp-pin-label">Masse</div></div>
+              </div>
+            </div>
+
+            <!-- Kabel -->
+            <div class="sp-cables">
+              <div class="sp-cable cable-orange">
+                <div class="cable-line cable-orange"></div>
+              </div>
+              <div class="sp-cable cable-orange">
+                <div class="cable-line cable-orange"></div>
+              </div>
+              <div class="sp-cable cable-red">
+                <div class="cable-line cable-red"></div>
+              </div>
+              <div class="sp-cable cable-black">
+                <div class="cable-line cable-black"></div>
+              </div>
+            </div>
+
+            <!-- Servos -->
+            <div class="sp-servos">
+              <div class="sp-chip servo">
+                <div class="sp-chip-title">Servo links</div>
+                <div class="sp-pin-row">
+                  <div class="sp-pin-dot pin-orange"></div>
+                  <div><div class="sp-pin-name">Orange</div><div class="sp-pin-label">Signal → P1</div></div>
+                </div>
+                <div class="sp-pin-row">
+                  <div class="sp-pin-dot pin-red"></div>
+                  <div><div class="sp-pin-name">Rot</div><div class="sp-pin-label">Strom → V</div></div>
+                </div>
+                <div class="sp-pin-row">
+                  <div class="sp-pin-dot pin-black"></div>
+                  <div><div class="sp-pin-name">Braun</div><div class="sp-pin-label">Masse → GND</div></div>
+                </div>
+              </div>
+              <div class="sp-chip servo">
+                <div class="sp-chip-title">Servo rechts</div>
+                <div class="sp-pin-row">
+                  <div class="sp-pin-dot pin-orange"></div>
+                  <div><div class="sp-pin-name">Orange</div><div class="sp-pin-label">Signal → P2</div></div>
+                </div>
+                <div class="sp-pin-row">
+                  <div class="sp-pin-dot pin-red"></div>
+                  <div><div class="sp-pin-name">Rot</div><div class="sp-pin-label">Strom → V</div></div>
+                </div>
+                <div class="sp-pin-row">
+                  <div class="sp-pin-dot pin-black"></div>
+                  <div><div class="sp-pin-name">Braun</div><div class="sp-pin-label">Masse → GND</div></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Pin-Referenz Bild -->
+        <div style="margin-top:1rem">
+          <div class="sp-label">📍 Pin-Position am micro:bit (unten am Gerät)</div>
+          <div class="schema-img">
+            <img src="../Arbeitsblätter/Bilder/microbit_schema.webp" alt="micro:bit Pin-Schema: Pin-0, Pin-1, Pin-2, Pin-3V, Pin-GND">
+          </div>
+        </div>
+      </div>
+
+      <!-- Schritt-für-Schritt Aufbau -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem">
+        <div class="sp-label">🛠️ Schritt-für-Schritt Aufbau</div>
+        <div class="wire-steps">
+
+          <div class="wire-step">
+            <div class="wire-dot" style="background:#38bdf8"></div>
+            <div class="wire-text">
+              <strong>micro:bit einstecken:</strong> Stecke das Auto-micro:bit in das <code>Breakout-Board</code>.<br>
+              <span style="color:var(--subtext);font-size:.82rem">Das zweite micro:bit ist die Fernbedienung — es braucht keine Kabel!</span>
+            </div>
+          </div>
+
+          <div class="wire-step">
+            <div class="wire-dot" style="background:#f97316"></div>
+            <div class="wire-text">
+              <strong>Linker Servo:</strong> Stecker auf die Pin-Reihe <code>P1</code> — oranges Kabel auf den gelben Signal-Pin.<br>
+              <span style="color:var(--subtext);font-size:.82rem">Rot kommt automatisch auf V (Strom), Braun auf GND (Masse).</span>
+            </div>
+          </div>
+
+          <div class="wire-step">
+            <div class="wire-dot" style="background:#f97316"></div>
+            <div class="wire-text">
+              <strong>Rechter Servo:</strong> Stecker genauso auf die Pin-Reihe <code>P2</code>.<br>
+              <span style="color:var(--subtext);font-size:.82rem">Wieder: Orange auf Signal, Rot auf V, Braun auf GND.</span>
+            </div>
+          </div>
+
+          <div class="wire-step">
+            <div class="wire-dot" style="background:#ef4444"></div>
+            <div class="wire-text">
+              <strong>Spannung einstellen:</strong> Setze die grüne Brücke <code>V1</code> auf <code>5V</code> (unten rechts am Breakout-Board).<br>
+              <span style="color:var(--subtext);font-size:.82rem">Ohne diese Brücke bekommen die Servos keinen Strom!</span>
+            </div>
+          </div>
+
+          <div class="wire-step">
+            <div class="wire-dot" style="background:#10b981"></div>
+            <div class="wire-text">
+              <strong>Auto montieren:</strong> Befestige Servos, Räder und micro:bit am Chassis.<br>
+              <span style="color:var(--subtext);font-size:.82rem">Die beiden Servos zeigen nach links und rechts — sie sind gespiegelt eingebaut.</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="info-banner" style="margin-top:1rem">
+          <span style="font-size:1.2rem;flex-shrink:0">💡</span>
+          <div>
+            <strong>Häufigster Fehler — die V1-Brücke:</strong><br>
+            Wenn sich die Servos später nicht drehen, prüfe zuerst, ob die grüne Brücke <strong>V1 auf 5V</strong> steckt. Das ist der häufigste Grund, warum das Auto nicht fährt.
+          </div>
+        </div>
+      </div>
+
+      <!-- Hardware fertig Button -->
+      <button class="btn-hardware" id="btnHardware" onclick="hardwareFertig()">
+        ✓ Hardware ist aufgebaut — weiter zur Programmierung!
+      </button>
+
+    </div>
+
+    <!-- ════════════════════════════════════
+         PHASE 2: Programmieren
+         ════════════════════════════════════ -->
+    <div id="phase2">
+
+      <div id="phase2anchor" style="height:1px;margin-top:-80px;padding-top:80px"></div>
+
+      <div style="background:linear-gradient(135deg,rgba(239,68,68,.1),rgba(239,68,68,.03));border:1px solid rgba(239,68,68,.25);border-radius:var(--radius);padding:1.25rem 1.5rem">
+        <div class="phase-header" style="margin-bottom:.5rem">
+          <div class="phase-num phase-num-2">2</div>
+          <div class="phase-header-text">
+            <h2>Programmieren</h2>
+            <p>Du schreibst zwei Programme — eins pro micro:bit.</p>
+          </div>
+        </div>
+        <p style="font-size:.9rem;color:var(--subtext)">
+          Das Besondere am MicroCar: Du brauchst <strong style="color:var(--accent)">zwei Programme</strong>. Die <strong style="color:var(--accent)">Fernbedienung</strong> sendet Befehle über Funk, das <strong style="color:var(--accent)">Auto</strong> empfängt sie und steuert die Servos. Eine Extension brauchst du nicht — alle Blöcke sind schon in MakeCode drin.
+        </p>
+      </div>
+
+      <!-- Aufgaben-Steps -->
+      <div class="prog-divider">
+        <span class="prog-chip">📡 Programm 1 — Fernbedienung</span>
+        <div class="prog-line"></div>
+      </div>
+
+      <div class="steps">
+
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">Funkgruppe einstellen</div>
+            <div class="step-desc">
+              Erstelle ein neues Projekt <code>Fernbedienung</code>. Ziehe in den <strong>„beim Start"</strong>-Block den Block <strong>„setze Gruppe auf 1"</strong> aus der Kategorie <strong>Funk</strong>. Nur micro:bits mit derselben Gruppe können sich hören!
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Befehle senden</div>
+            <div class="step-desc">
+              Hole dir dreimal den Block <strong>„wenn Knopf ... gedrückt"</strong> aus <strong>Eingabe</strong> und lege jeweils <strong>„sende Zeichenkette über Funk"</strong> hinein: Knopf <strong>A</strong> sendet <code>vor</code>, Knopf <strong>B</strong> sendet <code>zurück</code>, Knöpfe <strong>A+B</strong> senden <code>stopp</code>.
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">Auf das erste micro:bit übertragen</div>
+            <div class="step-desc">
+              Lade das Programm herunter und übertrage es auf das micro:bit <strong>ohne Kabel und Servos</strong> — das ist ab jetzt deine Fernbedienung.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="prog-divider">
+        <span class="prog-chip">🏎️ Programm 2 — Auto</span>
+        <div class="prog-line"></div>
+      </div>
+
+      <div class="steps">
+
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">Gleiche Funkgruppe</div>
+            <div class="step-desc">
+              Erstelle ein <strong>zweites Projekt</strong> <code>Auto</code>. Auch hier: <strong>„beim Start"</strong> → <strong>„setze Gruppe auf 1"</strong>. Dieselbe Zahl wie bei der Fernbedienung!
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <div class="step-title">Befehle empfangen</div>
+            <div class="step-desc">
+              Ziehe den Block <strong>„wenn Text empfangen über Funk (empfangeneNachricht)"</strong> aus <strong>Funk</strong> auf die Fläche. Baue darin mit <strong>„wenn / dann / sonst wenn"</strong> aus <strong>Logik</strong> drei Vergleiche: Ist <code>empfangeneNachricht</code> gleich <code>vor</code>, <code>zurück</code> oder <code>stopp</code>?
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">6</div>
+          <div class="step-body">
+            <div class="step-title">Servos ansteuern</div>
+            <div class="step-desc">
+              Bei <code>vor</code>: <strong>„setze Servo P1 auf 180°"</strong> und <strong>„setze Servo P2 auf 0°"</strong>. Bei <code>zurück</code>: genau umgekehrt — <strong>P1 auf 0°</strong>, <strong>P2 auf 180°</strong>. Die Servos sind gespiegelt eingebaut, deshalb brauchen sie entgegengesetzte Werte!
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">7</div>
+          <div class="step-body">
+            <div class="step-title">Stopp einbauen</div>
+            <div class="step-desc">
+              Bei <code>stopp</code>: <strong>„stoppe Servo P1"</strong> und <strong>„stoppe Servo P2"</strong>. Übertrage das Programm auf das Auto-micro:bit — und dann: Testfahrt! 🏁
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- MakeCode öffnen -->
+      <div class="makecode-section">
+        <div class="section-header">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+          <span>MakeCode Editor öffnen</span>
+        </div>
+        <div class="makecode-body">
+          <a href="https://makecode.microbit.org/" target="_blank" rel="noopener noreferrer" class="btn-makecode">
+            <svg width="22" height="22" viewBox="0 0 100 100" fill="none"><rect width="100" height="100" rx="18" fill="#fff"/><path d="M22 50L38 34L54 50L38 66L22 50Z" fill="#e63022"/><path d="M46 50L62 34L78 50L62 66L46 50Z" fill="#e63022" opacity=".6"/></svg>
+            In MakeCode öffnen
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+          <p class="makecode-note">Denk daran: Du brauchst zwei getrennte Projekte — „Fernbedienung" und „Auto"!</p>
+        </div>
+      </div>
+
+      <!-- Tipp / Lösung -->
+      <div class="hint-section">
+
+        <button class="btn btn-tipp" id="btnTipp" aria-expanded="false" onclick="toggleTipp()">
+          <span>💡</span><span>Tipp anzeigen</span><span class="btn-icon">▾</span>
+        </button>
+        <div class="panel" id="panelTipp">
+          <div class="panel-inner">
+            <div class="panel-content tipp-content">
+              <ul>
+                <li><strong>Nichts kommt an?</strong> Beide micro:bits müssen exakt dieselbe <strong>Funkgruppe (1)</strong> haben — prüfe beide „beim Start"-Blöcke.</li>
+                <li><strong>Servos drehen sich nicht?</strong> Die grüne Brücke <strong>V1 auf 5V</strong> am Breakout-Board prüfen.</li>
+                <li><strong>Auto dreht sich im Kreis statt zu fahren?</strong> Ein Servo hat die falschen Werte — bei „vor" braucht P1 <strong>180°</strong> und P2 <strong>0°</strong>, weil die Motoren gespiegelt eingebaut sind.</li>
+                <li><strong>Auto fährt rückwärts statt vorwärts?</strong> Tausche einfach die Werte 180 und 0 in beiden Befehlen.</li>
+                <li>Die Servo-Blöcke findest du unter <strong>Fortgeschritten → Pins → Servo</strong>.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-loesung" id="btnLoesung" aria-expanded="false" disabled onclick="toggleLoesung()">
+          <span>🔓</span><span>Lösung anzeigen</span><span class="btn-icon">▾</span>
+        </button>
+        <div class="panel" id="panelLoesung">
+          <div class="panel-inner">
+            <div class="panel-content loesung-content">
+              <div class="loesung-warning">
+                <span>⚠️</span>
+                <span>Versuche es zuerst selbst — die Lösung ist nur zur Kontrolle!</span>
+              </div>
+
+              <div class="loesung-label">Programm 1 — Fernbedienung</div>
+              <div style="background:#0a0a1a;border:1px solid var(--border);border-radius:10px;padding:1rem;font-family:monospace;font-size:.85rem;line-height:1.9;color:var(--text);margin-bottom:1rem">
+                <div style="color:#a78bfa;font-weight:700">beim Start</div>
+                <div style="margin-left:1rem;margin-bottom:.6rem">
+                  <span style="background:rgba(227,0,140,.2);padding:.1rem .4rem;border-radius:4px">setze Gruppe auf <span style="color:#fbbf24">1</span></span>
+                </div>
+                <div style="color:#f472b6;font-weight:700">wenn Knopf A gedrückt</div>
+                <div style="margin-left:1rem;margin-bottom:.6rem">
+                  <span style="background:rgba(227,0,140,.2);padding:.1rem .4rem;border-radius:4px">sende Zeichenkette <span style="color:#fbbf24">"vor"</span> über Funk</span>
+                </div>
+                <div style="color:#f472b6;font-weight:700">wenn Knopf B gedrückt</div>
+                <div style="margin-left:1rem;margin-bottom:.6rem">
+                  <span style="background:rgba(227,0,140,.2);padding:.1rem .4rem;border-radius:4px">sende Zeichenkette <span style="color:#fbbf24">"zurück"</span> über Funk</span>
+                </div>
+                <div style="color:#f472b6;font-weight:700">wenn Knopf A+B gedrückt</div>
+                <div style="margin-left:1rem">
+                  <span style="background:rgba(227,0,140,.2);padding:.1rem .4rem;border-radius:4px">sende Zeichenkette <span style="color:#fbbf24">"stopp"</span> über Funk</span>
+                </div>
+              </div>
+
+              <div class="loesung-label">Programm 2 — Auto</div>
+              <div style="background:#0a0a1a;border:1px solid var(--border);border-radius:10px;padding:1rem;font-family:monospace;font-size:.85rem;line-height:1.9;color:var(--text)">
+                <div style="color:#a78bfa;font-weight:700">beim Start</div>
+                <div style="margin-left:1rem;margin-bottom:.6rem">
+                  <span style="background:rgba(227,0,140,.2);padding:.1rem .4rem;border-radius:4px">setze Gruppe auf <span style="color:#fbbf24">1</span></span>
+                </div>
+                <div style="color:#f472b6;font-weight:700">wenn Text empfangen über Funk (empfangeneNachricht)</div>
+                <div style="margin-left:1rem">
+                  <div><span style="background:rgba(56,189,248,.15);padding:.1rem .4rem;border-radius:4px">wenn <span style="color:#a3e635">empfangeneNachricht = "vor"</span> dann</span></div>
+                  <div style="margin-left:1rem">
+                    <div><span style="background:rgba(251,146,60,.2);padding:.1rem .4rem;border-radius:4px">setze Servo P1 auf <span style="color:#fbbf24">180°</span></span></div>
+                    <div><span style="background:rgba(251,146,60,.2);padding:.1rem .4rem;border-radius:4px">setze Servo P2 auf <span style="color:#fbbf24">0°</span></span></div>
+                  </div>
+                  <div><span style="background:rgba(56,189,248,.15);padding:.1rem .4rem;border-radius:4px">sonst wenn <span style="color:#a3e635">empfangeneNachricht = "zurück"</span> dann</span></div>
+                  <div style="margin-left:1rem">
+                    <div><span style="background:rgba(251,146,60,.2);padding:.1rem .4rem;border-radius:4px">setze Servo P1 auf <span style="color:#fbbf24">0°</span></span></div>
+                    <div><span style="background:rgba(251,146,60,.2);padding:.1rem .4rem;border-radius:4px">setze Servo P2 auf <span style="color:#fbbf24">180°</span></span></div>
+                  </div>
+                  <div><span style="background:rgba(56,189,248,.15);padding:.1rem .4rem;border-radius:4px">sonst wenn <span style="color:#a3e635">empfangeneNachricht = "stopp"</span> dann</span></div>
+                  <div style="margin-left:1rem">
+                    <div><span style="background:rgba(251,146,60,.2);padding:.1rem .4rem;border-radius:4px">stoppe Servo P1</span></div>
+                    <div><span style="background:rgba(251,146,60,.2);padding:.1rem .4rem;border-radius:4px">stoppe Servo P2</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="loesung-note">✨ Erweiterung: Steuere das Auto mit dem Neigungssensor — kippe die Fernbedienung nach vorne zum Fahren! Oder baue eine Hupe mit dem Lautsprecher ein.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="glow-divider"></div>
+
+      <!-- Checkliste -->
+      <div class="checklist-section">
+        <div class="checklist-title"><span>✅</span> Ich habe …</div>
+        <div class="checklist" id="checklist">
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">beide micro:bits auf Funkgruppe 1 gestellt</span></label>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">das Fernbedienungs-Programm übertragen</span></label>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">das Auto-Programm übertragen</span></label>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">das Auto vorwärts und rückwärts fahren lassen</span></label>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">das Auto mit A+B gestoppt</span></label>
+        </div>
+        <div class="progress-row">
+          <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
+          <span class="progress-label" id="progressLabel">0 / 5</span>
+        </div>
+      </div>
+
+      <a href="../index.html" class="btn-next">🏠 Zurück zur Startseite <span class="arrow">→</span></a>
+
+    </div>
+
+  </main>
+
+  <script src="../main.js"></script>
+  <script>
+    // ── Fortschritt lokal speichern (localStorage, nur Häkchen — keine personenbezogenen Daten) ──
+    const LS_PREFIX = 'microcar';
+
+    function lsGet(key) {
+      try { return localStorage.getItem(LS_PREFIX + ':' + key); } catch (e) { return null; }
+    }
+    function lsSet(key, value) {
+      try { localStorage.setItem(LS_PREFIX + ':' + key, value); } catch (e) {}
+    }
+    function saveChecks(selector, key) {
+      const items = document.querySelectorAll(selector + ' input[type="checkbox"]');
+      lsSet(key, JSON.stringify([...items].map(cb => cb.checked)));
+    }
+    function loadChecks(selector, key) {
+      const saved = lsGet(key);
+      if (!saved) return;
+      try {
+        const states = JSON.parse(saved);
+        document.querySelectorAll(selector + ' input[type="checkbox"]')
+          .forEach((cb, i) => { cb.checked = !!states[i]; });
+      } catch (e) {}
+    }
+
+    // ── Bauteile Fortschritt ──────────────────────────────────────
+    function checkBauteile() {
+      const items = document.querySelectorAll('#bauteilList input[type="checkbox"]');
+      const total = items.length;
+      const done  = [...items].filter(cb => cb.checked).length;
+      document.getElementById('bauteilFill').style.width = Math.round(done/total*100) + '%';
+      document.getElementById('bauteilLabel').textContent = done + ' / ' + total;
+      saveChecks('#bauteilList', 'bauteile');
+    }
+
+    // ── Hardware fertig → Phase 2 freischalten ────────────────────
+    function unlockPhase2(mitScroll) {
+      const btn    = document.getElementById('btnHardware');
+      const phase2 = document.getElementById('phase2');
+
+      btn.disabled = true;
+      btn.innerHTML = '✓ Hardware erledigt!';
+
+      phase2.classList.add('visible');
+
+      if (mitScroll) {
+        setTimeout(() => {
+          document.getElementById('phase2anchor').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 120);
+      } else {
+        phase2.style.animation = 'none';
+      }
+    }
+
+    function hardwareFertig() {
+      lsSet('hardware', '1');
+      unlockPhase2(true);
+    }
+
+    // ── Gespeicherten Stand beim Laden wiederherstellen ───────────
+    loadChecks('#bauteilList', 'bauteile');
+    checkBauteile();
+    loadChecks('#checklist', 'checkliste');
+    updateProgress();
+    document.getElementById('checklist').addEventListener('change', () => saveChecks('#checklist', 'checkliste'));
+    if (lsGet('hardware') === '1') unlockPhase2(false);
+  </script>
+
+</body>
+</html>

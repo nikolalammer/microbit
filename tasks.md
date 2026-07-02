@@ -4,8 +4,8 @@ Arbeite die Punkte der Reihe nach ab. Lies vorher CLAUDE.md und SPEC.md. Hak jed
 
 ## Phase A: Lernbox-Fabrik
 - [x] Aufgabe 1: SkyBit-Seite komplett bauen (skybit/index.html) als Vorlage
-- [ ] Aufgabe 2: Aus SkyBit den Skill "lernbox-page" ableiten (skill-creator)
-- [ ] Aufgabe 3: MicroCar-Seite mit dem Skill bauen
+- [x] Aufgabe 2: Aus SkyBit den Skill "lernbox-page" ableiten (skill-creator)
+- [x] Aufgabe 3: MicroCar-Seite mit dem Skill bauen
 - [ ] Aufgabe 4: Musik-Seite mit dem Skill bauen
 - [ ] Aufgabe 5: PlantBit-Seite mit dem Skill bauen
 - [ ] Aufgabe 6: Bildschirm-Seite mit dem Skill bauen
