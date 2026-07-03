@@ -1,77 +1,49 @@
-# CLAUDE.md
+# CLAUDE.md, Micro:bit Schulwebsite (nikolalammer/microbit)
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+## Projektkontext
+GitHub-Pages-Seite für die MS Eberschwang. Schüler scannen QR-Codes auf physischen Lernboxen und landen direkt auf der passenden Anleitung. Zugriff primär über Smartphone, Mobilfreundlichkeit ist deshalb kritisch. Sprache durchgehend Deutsch.
 
-## What this repository is
+## Live-URL
+https://nikolalammer.github.io/microbit/
 
-A German-language STEM/Maker education project for schools, built around the **BBC micro:bit** microcontroller. It contains lesson plans, worksheets, project guides, pre-compiled firmware, and 3D-printable hardware files — not a traditional software codebase.
+## Struktur
+1. index.html: Startseite mit allen Levels und Lernboxen als Karten
+2. aufgabe-1.html bis aufgabe-5.html: Grundlagen Level 1
+3. skybit/, microcar/, musik/, plantbit/, bildschirm/, autolego/: je eine Lernbox-Seite
+4. Lernboxen/: PDFs, HEX-Dateien, Bilder als Quelldateien, nicht deployed
+5. Arbeitsblätter/Bilder/: Roboter-Bilder zur Wiederverwendung
 
-The school context is **Austria** (Eberschwang). All materials are in German.
+## Design-Grundsätze
+1. Kein generisches KI-Design. Kein Inter oder Roboto, kein lila Verlauf auf Weiß.
+2. Mobil zuerst. Touch-Ziele mindestens 48px, große Schrift, große Buttons.
+3. Progressiver Reveal. Schüler sehen Schritt für Schritt, nicht alles auf einmal.
+4. HEX-Dateien immer als direkter Download-Button.
+5. Farbe pro Box unterschiedlich, Layout einheitlich.
+6. Vor jeder Design-Arbeit /mnt/skills/public/frontend-design/SKILL.md lesen.
 
----
+## Datenschutz (nicht verhandelbar)
+Die Nutzer sind Kinder. Deshalb:
+1. Kein Backend, keine Datenbank, keine Accounts.
+2. Keine Live-Aufrufe an eine KI-API aus Schülerseiten heraus.
+3. Alle interaktiven Inhalte (Quizze, Varianten) werden statisch vorgeneriert und liegen fertig im HTML.
+4. Fortschritt nur lokal im Browser über localStorage, ohne personenbezogene Daten.
+5. Keine Fotos, keine Namen, keine Standortdaten erfassen.
 
-## Repository structure
+## Workflow-Regeln
+1. Für alles Nicht-Triviale zuerst Plan Mode (Shift und Tab), Plan zeigen, Freigabe abwarten, dann bauen.
+2. PDFs immer über den Subagent pdf-leser lesen, damit der Hauptkontext frei bleibt.
+3. Einfachster möglicher Ansatz. Keine unnötigen Abstraktionen, kein Framework wo pures HTML reicht.
+4. Erfolg belegen statt behaupten. Seite öffnen, Screenshot im Handy-Viewport zeigen.
+5. Eine Aufgabe nie vorschnell als fertig erklären. Erst wenn der Beleg da ist.
+6. /clear zwischen zwei unabhängigen Boxen. Nie alle PDFs gleichzeitig laden.
 
-```
-Arbeitsblätter/      Structured lesson worksheets (PNG images), two levels + intro
-  Einführung/        Intro: hardware overview, MakeCode IDE
-  Level 1/           5 guided exercises: output, text, input, random, radio
-  Level 2/           2 project exercises: digital pet, Morse code
-  Unterrichtsplanung.docx
+## Neue Lernbox-Seite bauen
+1. Passendes PDF aus Lernboxen/<Name>/ per Subagent lesen und Schritte extrahieren.
+2. Phasen trennen, zum Beispiel Verdrahtung und Programmierung.
+3. Schritt für Schritt mit Fortschrittsanzeige und progressivem Reveal.
+4. MakeCode-Link einbauen, HEX-Download falls vorhanden.
+5. QR-Code-URL am Ende ausgeben.
+6. git add, commit, push.
 
-Lernboxen/           Self-contained project boxes (thematic units)
-  SkyBit/            Weather station — PDF guide
-  MicroCar/          Radio-controlled car — PDF guide + pre-built HEX
-  Musik/             Music programming — sheet music (.docx) + lesson plan
-  PlantBit/          Plant moisture monitor — PDF guide
-  Bildschirm/        OLED display programming — JavaScript code snippet
-  Auto Lego/         LEGO car build — 3D-print STLs + MakeCode PDF
-
-Programme/           Ready-to-flash .hex firmware files
-3D Druck Files/      Printable enclosures (STL + OpenSCAD source)
-3D Model/            Blender model of the micro:bit (for visuals/presentations)
-Roboter bipedal/     EASY:bit biped robot — full STL set + firmware
-Schulbuch/           Theory reference: algorithms, programming languages
-Homepage/            AI-generated artwork, GIMP project, research diary
-```
-
----
-
-## File types and tooling
-
-| Extension | Tool | Purpose |
-|-----------|------|---------|
-| `.hex` | micro:bit USB drag-and-drop | Compiled MakeCode firmware, flash by copying to the micro:bit drive |
-| `.scad` | OpenSCAD | Parametric 3D source for the micro:bit case (`3D Druck Files/Case/`) |
-| `.stl` / `.3mf` | Slicer (e.g. Cura, PrusaSlicer) | 3D print files |
-| `.blend` | Blender | 3D model of the micro:bit |
-| `.docx` | Word / LibreOffice | Lesson plans and sheet music |
-| `.xcf` | GIMP | Homepage artwork |
-| JavaScript snippets (`.txt`) | MakeCode online editor | Paste into MakeCode JavaScript view |
-
----
-
-## MakeCode workflow
-
-Programs are authored at **makecode.microbit.org** — no local toolchain needed.
-
-- Blocks mode and JavaScript mode are interchangeable in MakeCode.
-- JavaScript snippets (e.g. `Lernboxen/bildschirm.txt`) can be pasted directly into the JavaScript view of a new MakeCode project.
-- Compiled output is a `.hex` file — download and copy to the micro:bit USB drive to flash.
-- Radio (Funk) projects require **two** micro:bits: one running the sender HEX, one the receiver HEX (see `Programme/`).
-
----
-
-## 3D print notes
-
-- `3D Druck Files/Case/microbitcase.scad` is the parametric OpenSCAD source for the V1 case. The variables `pins_accessable` and `logo_accessable` at the top toggle cutouts.
-- The V2 case is pre-exported as `BBC_TOP.stl` + `BBC_BOTTOM.stl` — no source edits needed.
-- The EASY:bit robot (`Roboter bipedal/`) supports both **SG90** and **MS18** servo variants — choose the matching STL files accordingly.
-
----
-
-## Adding new materials
-
-- Worksheet images go in `Arbeitsblätter/Level X/` as numbered PNGs matching the existing naming convention.
-- New Lernboxen get their own subfolder under `Lernboxen/` with a PDF guide and optionally a HEX file.
-- New HEX files belong in `Programme/` with descriptive names (`microbit-<ProjektName>[-Senden|-Empfangen].hex`).
+## Git
+Commit-Nachrichten kurz und auf Deutsch, im Präsens, zum Beispiel "Fügt SkyBit-Seite hinzu".
