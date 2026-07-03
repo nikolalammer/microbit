@@ -13,8 +13,8 @@ Arbeite die Punkte der Reihe nach ab. Lies vorher CLAUDE.md und SPEC.md. Hak jed
 - [x] Aufgabe 8: Startseite aktualisieren, "Coming Soon" entfernen
 
 ## Phase B: Selbstkontrolle
-- [ ] Aufgabe 9: Mini-Quiz für aufgabe-1.html als Muster bauen, dann Freigabe abwarten
-- [ ] Aufgabe 10: Quiz für aufgabe-2 bis aufgabe-5 ergänzen
+- [x] Aufgabe 9: Mini-Quiz für aufgabe-1.html als Muster bauen, dann Freigabe abwarten
+- [x] Aufgabe 10: Quiz für aufgabe-2 bis aufgabe-5 ergänzen
 
 ## Phase C: Differenzierung
 - [ ] Aufgabe 11: Umschalter und "Anders erklärt" für aufgabe-1.html als Muster
