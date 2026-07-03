@@ -6,9 +6,9 @@ Arbeite die Punkte der Reihe nach ab. Lies vorher CLAUDE.md und SPEC.md. Hak jed
 - [x] Aufgabe 1: SkyBit-Seite komplett bauen (skybit/index.html) als Vorlage
 - [x] Aufgabe 2: Aus SkyBit den Skill "lernbox-page" ableiten (skill-creator)
 - [x] Aufgabe 3: MicroCar-Seite mit dem Skill bauen
-- [ ] Aufgabe 4: Musik-Seite mit dem Skill bauen
-- [ ] Aufgabe 5: PlantBit-Seite mit dem Skill bauen
-- [ ] Aufgabe 6: Bildschirm-Seite mit dem Skill bauen
+- [x] Aufgabe 4: Musik-Seite mit dem Skill bauen
+- [x] Aufgabe 5: PlantBit-Seite mit dem Skill bauen
+- [x] Aufgabe 6: Bildschirm-Seite mit dem Skill bauen
 - [ ] Aufgabe 7: Auto-Lego-Seite mit dem Skill bauen
 - [ ] Aufgabe 8: Startseite aktualisieren, "Coming Soon" entfernen
 
