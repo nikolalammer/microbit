@@ -26,6 +26,14 @@ function toggleLoesung() {
   btn.setAttribute('aria-expanded', open);
 }
 
+function toggleAnders() {
+  const btn   = document.getElementById('btnAnders');
+  const panel = document.getElementById('panelAnders');
+  if (!btn || !panel) return;
+  const open = panel.classList.toggle('open');
+  btn.setAttribute('aria-expanded', open);
+}
+
 // ── localStorage-Helfer ───────────────────────────────────────
 function lsGet(prefix, key) {
   try { return localStorage.getItem(prefix + ':' + key); } catch (e) { return null; }
@@ -77,6 +85,35 @@ function initQuiz() {
   }
 }
 initQuiz();
+
+// ── Differenzierung: Stufen-Umschalter ────────────────────────
+function initStufen() {
+  const schalter = document.querySelector('.stufen-schalter');
+  if (!schalter) return;
+  const buttons  = [...schalter.querySelectorAll('.stufe-btn')];
+  const inhalte  = [...document.querySelectorAll('[data-stufe-inhalt]')];
+  const gueltig  = buttons.map(b => b.dataset.stufe);
+
+  function setzeStufe(stufe, speichern) {
+    if (!gueltig.includes(stufe)) stufe = 'standard';
+    buttons.forEach(b => {
+      const aktiv = b.dataset.stufe === stufe;
+      b.classList.toggle('aktiv', aktiv);
+      b.setAttribute('aria-pressed', aktiv);
+    });
+    inhalte.forEach(el => { el.hidden = el.dataset.stufeInhalt !== stufe; });
+    if (speichern) lsSet('einstellung', 'stufe', stufe);
+  }
+
+  buttons.forEach(b => {
+    b.addEventListener('click', () => setzeStufe(b.dataset.stufe, true));
+  });
+
+  // URL-Parameter (?stufe=leicht) gewinnt gegen gespeicherte Wahl
+  const param = new URLSearchParams(location.search).get('stufe');
+  setzeStufe(param || lsGet('einstellung', 'stufe') || 'standard', false);
+}
+initStufen();
 
 // ── Checkliste Fortschritt ────────────────────────────────────
 function updateProgress() {

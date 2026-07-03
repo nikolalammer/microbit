@@ -474,3 +474,52 @@ main { max-width: 900px; margin: 0 auto; padding: 0 1.5rem 4rem; display: flex; 
   40%  { transform: scale(1.03); box-shadow: 0 0 0 6px rgba(124,58,237,.2); }
   100% { transform: scale(1); }
 }
+
+/* ── Differenzierung: Stufen-Umschalter & "Anders erklärt" ── */
+[hidden] { display: none !important; }
+
+.stufen-section { display: flex; flex-direction: column; gap: .5rem; }
+.stufen-label {
+  font-size: .8rem; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--subtext);
+}
+.stufen-schalter {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: .4rem;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: .4rem;
+}
+.stufe-btn {
+  min-height: 48px; padding: .6rem .5rem; border-radius: 10px;
+  background: transparent; border: 1px solid transparent;
+  color: var(--subtext); font-size: .9rem; font-weight: 700; font-family: inherit;
+  cursor: pointer; touch-action: manipulation;
+}
+.stufe-btn:hover:not(.aktiv), .stufe-btn:focus-visible:not(.aktiv) {
+  background: var(--surface2); color: var(--text);
+}
+.stufe-btn.aktiv {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #06283a;
+  box-shadow: 0 2px 12px rgba(0,212,255,.35);
+}
+
+.btn-anders {
+  background: rgba(124,58,237,.12);
+  border: 2px solid rgba(124,58,237,.4);
+  color: #a78bfa;
+}
+.btn-anders:hover, .btn-anders:focus-visible {
+  background: rgba(124,58,237,.22); border-color: var(--purple);
+  transform: translateY(-1px); box-shadow: 0 4px 20px rgba(124,58,237,.2);
+}
+.anders-content { color: var(--subtext); font-size: .95rem; display: flex; flex-direction: column; gap: .75rem; }
+.anders-content strong { color: var(--text); }
+.anders-label {
+  font-size: .8rem; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: #a78bfa;
+}
+
+@media (max-width: 400px) {
+  .stufe-btn { font-size: .8rem; padding: .6rem .25rem; }
+}

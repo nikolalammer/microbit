@@ -17,7 +17,7 @@ Arbeite die Punkte der Reihe nach ab. Lies vorher CLAUDE.md und SPEC.md. Hak jed
 - [x] Aufgabe 10: Quiz für aufgabe-2 bis aufgabe-5 ergänzen
 
 ## Phase C: Differenzierung
-- [ ] Aufgabe 11: Umschalter und "Anders erklärt" für aufgabe-1.html als Muster
+- [x] Aufgabe 11: Umschalter und "Anders erklärt" für aufgabe-1.html als Muster
 - [ ] Aufgabe 12: Differenzierung für aufgabe-2 bis aufgabe-5 ergänzen
 
 ## Regeln

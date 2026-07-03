@@ -37,7 +37,85 @@
 
   <main>
 
-    <div class="steps">
+    <div class="anders-section">
+      <button class="btn btn-anders" id="btnAnders" aria-expanded="false" onclick="toggleAnders()">
+        <span>🔄</span><span>Anders erklärt</span><span class="btn-icon">▾</span>
+      </button>
+      <div class="panel" id="panelAnders">
+        <div class="panel-inner">
+          <div class="panel-content anders-content">
+            <div class="anders-label">Die gleiche Aufgabe, mit anderen Worten</div>
+            <p>Stell dir das Display deines micro:bit wie eine <strong>Mini-Anzeigetafel im Fußballstadion</strong> vor: 25 Lämpchen, die zusammen ein Bild ergeben — ein Herz, einen Smiley, was du willst.</p>
+            <p>Dein Programm ist das <strong>Rezept</strong> dafür. In MakeCode schreibst du es aus Bausteinen zusammen: Der Baustein „zeige Symbol" heißt übersetzt <strong>„Anzeigetafel, zeig dieses Bild!"</strong></p>
+            <p>Mit „Herunterladen" bringst du das Rezept in die Küche: Die Datei wandert auf den micro:bit, und der <strong>kocht es sofort nach</strong> — dein Bild leuchtet.</p>
+            <p>Und die Animation? Die funktioniert wie ein <strong>Daumenkino</strong>: mehrere Bilder schnell hintereinander, und es sieht aus wie Bewegung.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stufen-section">
+      <div class="stufen-label">Wähle deinen Weg</div>
+      <div class="stufen-schalter" role="group" aria-label="Schwierigkeitsstufe wählen">
+        <button class="stufe-btn" data-stufe="leicht">🐣 Leichter</button>
+        <button class="stufe-btn" data-stufe="standard">⭐ Standard</button>
+        <button class="stufe-btn" data-stufe="schwer">🚀 Schwerer</button>
+      </div>
+    </div>
+
+    <div class="steps" data-stufe-inhalt="leicht" hidden>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Öffne die Seite</div>
+          <div class="step-desc">Gehe im Internet auf <strong>makecode.microbit.org</strong>.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Neues Projekt</div>
+          <div class="step-desc">Klicke auf <strong>„Neues Projekt"</strong>. Gib einen Namen ein, zum Beispiel <strong>Mein Symbol</strong>. Klicke auf „Erstellen".</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Schau dich kurz um</div>
+          <div class="step-desc">Links siehst du ein Bild vom micro:bit — das ist der <strong>Simulator</strong>. Er zeigt dir, was dein Programm macht. In der Mitte sind die <strong>bunten Bausteine</strong>.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Hol dir den Baustein</div>
+          <div class="step-desc">Klicke auf die blaue Gruppe <strong>„Grundlagen"</strong>. Ziehe den Baustein <strong>„zeige Symbol"</strong> in die Mitte — genau in den Block <strong>„beim Start"</strong> hinein.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <div class="step-title">Such dir ein Symbol aus</div>
+          <div class="step-desc">Klicke im Baustein auf das kleine <strong>Herz</strong>. Ein Menü geht auf. Such dir ein Symbol aus, das dir gefällt.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <div class="step-title">Stecke den micro:bit an</div>
+          <div class="step-desc">Verbinde den micro:bit mit dem <strong>USB-Kabel</strong> mit deinem Computer.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">7</div>
+        <div class="step-body">
+          <div class="step-title">Herunterladen</div>
+          <div class="step-desc">Klicke auf <strong>„Herunterladen"</strong>. Ziehe die neue Datei auf das Laufwerk <strong>MICROBIT</strong>. Fertig — dein Symbol leuchtet! 🎉</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="steps" data-stufe-inhalt="standard">
       <div class="step">
         <div class="step-num">1</div>
         <div class="step-body">
@@ -64,6 +142,37 @@
         <div class="step-body">
           <div class="step-title">Erweitern: Animation</div>
           <div class="step-desc">Rechtsklick auf den Block → <strong>„Duplizieren"</strong>. Füge mehrere „zeige Symbol"-Blöcke hintereinander ein, wähle je ein anderes Symbol — schon hast du eine Animation!</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="steps" data-stufe-inhalt="schwer" hidden>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Symbol anzeigen</div>
+          <div class="step-desc">Neues Projekt auf makecode.microbit.org. Lass beim Start ein Symbol deiner Wahl auf dem Display erscheinen — den passenden Block findest du selbst.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Auf den micro:bit flashen</div>
+          <div class="step-desc">Programm herunterladen und auf den micro:bit übertragen. Prüfe am echten Gerät, nicht nur im Simulator.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Animation bauen</div>
+          <div class="step-desc">Mindestens <strong>vier verschiedene Symbole</strong> nacheinander — die Animation soll flüssig und absichtsvoll wirken, keine wilde Blinkerei.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Herausforderung: Eigenes Bild &amp; Tempo</div>
+          <div class="step-desc">Zeichne mit <strong>„zeige LEDs"</strong> ein eigenes Bild, das es nicht als fertiges Symbol gibt. Steuere das Tempo deiner Animation mit <strong>„pausiere (ms)"</strong>-Blöcken. Bonus: Bau die Animation so um, dass sie <strong>endlos läuft</strong> — welcher Block statt „beim Start" hilft dir dabei?</div>
         </div>
       </div>
     </div>
