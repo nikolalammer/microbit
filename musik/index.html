@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Musik – Lieder programmieren | micro:bit</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    /* ── Musik Anpassungen ── */
+    :root {
+      --accent:    #e879f9;
+      --accent-dim:#c026d3;
+    }
+
+    /* Phase-System */
+    .phase-badge {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-size: .72rem; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; padding: .25rem .7rem;
+      border-radius: 999px; margin-bottom: .75rem;
+    }
+    .phase-badge-1 {
+      background: rgba(251,146,60,.12);
+      border: 1px solid rgba(251,146,60,.35);
+      color: #fb923c;
+    }
+    .phase-badge-2 {
+      background: rgba(232,121,249,.12);
+      border: 1px solid rgba(232,121,249,.35);
+      color: var(--accent);
+    }
+
+    .phase-header {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .phase-num {
+      width: 2.5rem; height: 2.5rem; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1rem; color: #fff; flex-shrink: 0;
+    }
+    .phase-num-1 { background: linear-gradient(135deg, #fb923c, #ea580c); }
+    .phase-num-2 { background: linear-gradient(135deg, var(--accent), var(--purple)); }
+    .phase-header-text h2 { font-size: 1.2rem; font-weight: 800; color: #fff; margin-bottom: .1rem; }
+    .phase-header-text p  { font-size: .85rem; color: var(--subtext); }
+
+    /* Materialliste */
+    .bauteil-list { display: flex; flex-direction: column; gap: .5rem; margin-bottom: 1.25rem; }
+    .bauteil-item {
+      display: flex; align-items: center; gap: .9rem;
+      padding: .7rem 1rem; border-radius: 10px;
+      background: var(--surface2); border: 1px solid var(--border);
+      cursor: pointer; transition: all var(--transition); user-select: none;
+    }
+    .bauteil-item:hover { border-color: #fb923c; background: rgba(251,146,60,.06); }
+    .bauteil-item input[type="checkbox"] { display: none; }
+    .bauteil-check {
+      width: 22px; height: 22px; border-radius: 6px;
+      border: 2px solid var(--border); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: all var(--transition);
+    }
+    .bauteil-item:has(input:checked) .bauteil-check {
+      background: #fb923c; border-color: #fb923c;
+    }
+    .bauteil-item:has(input:checked) .bauteil-check::after {
+      content: '✓'; color: #fff; font-size: .8rem; font-weight: 800;
+    }
+    .bauteil-item:has(input:checked) .bauteil-label { color: var(--subtext); text-decoration: line-through; }
+    .bauteil-icon { font-size: 1.2rem; }
+    .bauteil-label { font-size: .92rem; flex: 1; }
+    .bauteil-detail { font-size: .75rem; color: var(--subtext); margin-top: .1rem; }
+
+    .sp-label {
+      font-size: .72rem; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--subtext); margin-bottom: .75rem;
+    }
+
+    /* Noten-Spickzettel */
+    .wire-steps { display: flex; flex-direction: column; gap: .75rem; }
+    .wire-step {
+      display: flex; align-items: flex-start; gap: .75rem;
+      padding: .9rem 1rem; border-radius: 10px;
+      background: var(--surface2); border: 1px solid var(--border);
+    }
+    .wire-dot {
+      width: 18px; height: 18px; border-radius: 50%;
+      flex-shrink: 0; margin-top: .15rem;
+    }
+    .note-symbol {
+      width: 2.2rem; flex-shrink: 0; text-align: center;
+      font-size: 1.5rem; line-height: 1.2; color: var(--accent);
+    }
+    .wire-text { font-size: .9rem; color: var(--text); }
+    .wire-text strong { font-weight: 700; }
+    .wire-text code {
+      background: rgba(255,255,255,.08); border-radius: 4px;
+      padding: .1rem .35rem; font-size: .85rem; font-family: monospace;
+      color: var(--accent);
+    }
+
+    /* Vorbereitung-fertig Button */
+    .btn-hardware {
+      background: linear-gradient(135deg, #fb923c, #ea580c);
+      color: #fff; border: none; font-weight: 800; font-size: 1.05rem;
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: .6rem; padding: 1rem 2rem; border-radius: var(--radius);
+      min-height: 56px; touch-action: manipulation;
+      transition: all var(--transition); width: 100%;
+      box-shadow: 0 4px 20px rgba(251,146,60,.3); cursor: pointer;
+    }
+    .btn-hardware:hover:not(:disabled) {
+      transform: translateY(-2px); box-shadow: 0 8px 32px rgba(251,146,60,.45);
+    }
+    .btn-hardware:disabled {
+      background: var(--success); box-shadow: 0 4px 20px rgba(16,185,129,.3);
+      cursor: default; transform: none;
+    }
+
+    /* Phase 2 */
+    #phase2 { display: none; flex-direction: column; gap: 1.75rem; }
+    #phase2.visible {
+      display: flex;
+      animation: phaseIn .5s ease forwards;
+    }
+    @keyframes phaseIn {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Block-Fundort-Schritte */
+    .ext-steps { display: flex; flex-direction: column; gap: .6rem; }
+    .ext-step {
+      display: flex; gap: .75rem;
+      padding: .9rem 1rem; border-radius: 10px;
+      background: var(--surface2); border: 1px solid var(--border);
+      align-items: flex-start;
+    }
+    .ext-num {
+      background: rgba(232,121,249,.15); border: 1px solid rgba(232,121,249,.3);
+      color: var(--accent); font-weight: 800; font-size: .8rem;
+      width: 22px; height: 22px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: .1rem;
+    }
+    .ext-text { font-size: .9rem; color: var(--text); }
+    .ext-text strong { color: var(--accent); }
+    .ext-text code {
+      background: rgba(232,121,249,.1); border-radius: 4px;
+      padding: .1rem .35rem; font-size: .82rem; font-family: monospace;
+      color: var(--accent); word-break: break-all;
+    }
+
+    /* Schwierigkeits-Karten für die Wahllieder */
+    .level-cards { display: flex; flex-direction: column; gap: .6rem; margin-top: .6rem; }
+    .level-card {
+      display: flex; align-items: flex-start; gap: .75rem;
+      padding: .9rem 1rem; border-radius: 10px;
+      background: var(--surface2); border: 1px solid var(--border);
+    }
+    .level-tag {
+      font-size: .7rem; font-weight: 800; letter-spacing: .06em;
+      text-transform: uppercase; padding: .2rem .55rem;
+      border-radius: 999px; flex-shrink: 0; margin-top: .1rem;
+    }
+    .level-leicht  { background: rgba(74,222,128,.15);  border: 1px solid rgba(74,222,128,.35);  color: #4ade80; }
+    .level-mittel  { background: rgba(251,191,36,.15);  border: 1px solid rgba(251,191,36,.35);  color: #fbbf24; }
+    .level-schwer  { background: rgba(239,68,68,.15);   border: 1px solid rgba(239,68,68,.35);   color: #ef4444; }
+    .level-text { font-size: .9rem; color: var(--text); }
+    .level-text .level-detail { font-size: .78rem; color: var(--subtext); margin-top: .15rem; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html">micro:bit</a>
+    <span class="sep">›</span>
+    <a href="../index.html#lernboxen">Lernboxen</a>
+    <span class="sep">›</span>
+    <span class="current">Musik – Lieder programmieren</span>
+  </nav>
+
+  <section class="hero">
+    <img class="hero-robot"
+      src="../Arbeitsblätter/Bilder/Buttons/microbit_roboter_ohne_BG.png"
+      alt="micro:bit Roboter"
+      style="filter: drop-shadow(0 0 20px rgba(232,121,249,.4));">
+    <div class="hero-text">
+      <div class="hero-badge" style="background:rgba(232,121,249,.1);border-color:rgba(232,121,249,.3)">🎵 Lernbox</div>
+      <h1>Musik</h1>
+      <p class="hero-sub">Verwandle deinen micro:bit in ein Musikinstrument! Programmiere zuerst die Tonleiter und dann echte Lieder — von „Alle meine Entchen" bis Despacito.</p>
+    </div>
+  </section>
+
+  <div class="ziel">
+    <div class="ziel-inner">
+      <span class="ziel-icon">🎯</span>
+      <div>
+        <div class="ziel-label">Lernziel</div>
+        <div class="ziel-text">Am Ende spielt dein micro:bit auf Knopfdruck ganze Lieder — und du kannst jede Melodie von einem Notenblatt in Code übersetzen.</div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- ════════════════════════════════════
+         PHASE 1: Vorbereiten
+         ════════════════════════════════════ -->
+    <div id="phase1" style="display:flex;flex-direction:column;gap:1.75rem">
+
+      <div>
+        <div class="phase-header">
+          <div class="phase-num phase-num-1">1</div>
+          <div class="phase-header-text">
+            <h2>Vorbereiten</h2>
+            <p>Sammle dein Material und lerne den Noten-Spickzettel kennen.</p>
+          </div>
+        </div>
+
+        <!-- Materialliste -->
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem">
+          <div class="sp-label">📦 Materialliste — hake ab was du hast</div>
+          <div class="bauteil-list" id="bauteilList">
+
+            <label class="bauteil-item">
+              <input type="checkbox" onchange="checkBauteile()">
+              <span class="bauteil-check"></span>
+              <span class="bauteil-icon">🖥️</span>
+              <div>
+                <div class="bauteil-label">BBC micro:bit V1 oder V2</div>
+                <div class="bauteil-detail">Mit USB-Kabel oder Batteriepack</div>
+              </div>
+            </label>
+
+            <label class="bauteil-item">
+              <input type="checkbox" onchange="checkBauteile()">
+              <span class="bauteil-check"></span>
+              <span class="bauteil-icon">🎧</span>
+              <div>
+                <div class="bauteil-label">Kopfhörer oder Lautsprecher</div>
+                <div class="bauteil-detail">Beim micro:bit V2 reicht der eingebaute Lautsprecher</div>
+              </div>
+            </label>
+
+            <label class="bauteil-item">
+              <input type="checkbox" onchange="checkBauteile()">
+              <span class="bauteil-check"></span>
+              <span class="bauteil-icon">💻</span>
+              <div>
+                <div class="bauteil-label">iPad oder Computer</div>
+                <div class="bauteil-detail">Mit Internet für MakeCode</div>
+              </div>
+            </label>
+
+            <label class="bauteil-item">
+              <input type="checkbox" onchange="checkBauteile()">
+              <span class="bauteil-check"></span>
+              <span class="bauteil-icon">🎼</span>
+              <div>
+                <div class="bauteil-label">Notenblätter aus der Lernbox</div>
+                <div class="bauteil-detail">Tonleiter, „Alle meine Entchen" und dein Wahllied</div>
+              </div>
+            </label>
+
+          </div>
+
+          <div class="progress-row">
+            <div class="progress-bar-bg" style="--c:#fb923c">
+              <div class="progress-bar-fill" id="bauteilFill" style="background:linear-gradient(90deg,#fb923c,#f97316)"></div>
+            </div>
+            <span class="progress-label" id="bauteilLabel">0 / 4</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Noten-Spickzettel -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem">
+        <div class="sp-label">🎼 Noten-Spickzettel — so lang klingt jede Note</div>
+        <div class="wire-steps">
+
+          <div class="wire-step">
+            <div class="note-symbol">♩</div>
+            <div class="wire-text">
+              <strong>Viertelnote</strong> = <code>1 Schlag</code><br>
+              <span style="color:var(--subtext);font-size:.82rem">Ausgemalter Kopf mit Hals — die normale, kurze Note.</span>
+            </div>
+          </div>
+
+          <div class="wire-step">
+            <div class="note-symbol">𝅗𝅥</div>
+            <div class="wire-text">
+              <strong>Halbe Note</strong> = <code>2 Schläge</code><br>
+              <span style="color:var(--subtext);font-size:.82rem">Leerer Kopf mit Hals — klingt doppelt so lang.</span>
+            </div>
+          </div>
+
+          <div class="wire-step">
+            <div class="note-symbol">𝅝</div>
+            <div class="wire-text">
+              <strong>Ganze Note</strong> = <code>4 Schläge</code><br>
+              <span style="color:var(--subtext);font-size:.82rem">Leerer Kopf ohne Hals — die längste Note, ein ganzer Takt.</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="info-banner" style="margin-top:1rem">
+          <span style="font-size:1.2rem;flex-shrink:0">🧮</span>
+          <div>
+            <strong>Rechen-Trick für den 4/4-Takt:</strong><br>
+            In jedem Takt müssen die Schläge zusammen genau <strong>4</strong> ergeben (z.&nbsp;B. 1+1+1+1 oder 2+2). Zähl nach — wenn es nicht aufgeht, stimmt eine Notenlänge nicht!
+          </div>
+        </div>
+      </div>
+
+      <!-- Ton-Ausgabe -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem">
+        <div class="sp-label">🔊 Woher kommt der Ton?</div>
+        <div class="wire-steps">
+
+          <div class="wire-step">
+            <div class="wire-dot" style="background:#4ade80"></div>
+            <div class="wire-text">
+              <strong>micro:bit V2:</strong> hat einen <strong>eingebauten Lautsprecher</strong> — du musst nichts anschließen.<br>
+              <span style="color:var(--subtext);font-size:.82rem">Du erkennst den V2 am kleinen Lautsprecher-Gitter auf der Rückseite.</span>
+            </div>
+          </div>
+
+          <div class="wire-step">
+            <div class="wire-dot" style="background:#eab308"></div>
+            <div class="wire-text">
+              <strong>micro:bit V1:</strong> braucht Kopfhörer mit 2 Krokodilklemmen: <code>P0</code> → Kopfhörer-<strong>Spitze</strong>, <code>GND</code> → langes <strong>Metallstück</strong> am Stecker.<br>
+              <span style="color:var(--subtext);font-size:.82rem">Frag deine Lehrkraft, wenn du nicht sicher bist, welchen micro:bit du hast.</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Vorbereitung fertig Button -->
+      <button class="btn-hardware" id="btnHardware" onclick="hardwareFertig()">
+        ✓ Alles bereit — weiter zur Programmierung!
+      </button>
+
+    </div>
+
+    <!-- ════════════════════════════════════
+         PHASE 2: Programmieren
+         ════════════════════════════════════ -->
+    <div id="phase2">
+
+      <div id="phase2anchor" style="height:1px;margin-top:-80px;padding-top:80px"></div>
+
+      <div style="background:linear-gradient(135deg,rgba(232,121,249,.1),rgba(232,121,249,.03));border:1px solid rgba(232,121,249,.25);border-radius:var(--radius);padding:1.25rem 1.5rem">
+        <div class="phase-header" style="margin-bottom:.5rem">
+          <div class="phase-num phase-num-2">2</div>
+          <div class="phase-header-text">
+            <h2>Programmieren</h2>
+            <p>Jetzt kommt der Code — dein micro:bit lernt Melodien.</p>
+          </div>
+        </div>
+        <p style="font-size:.9rem;color:var(--subtext)">
+          Alle Blöcke findest du in der Kategorie <strong style="color:var(--accent)">Musik</strong> — du brauchst <strong>keine Extension</strong> und kannst sofort loslegen.
+        </p>
+      </div>
+
+      <!-- Musik-Blöcke finden -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem">
+        <div class="sp-label">🎹 So findest du die Musik-Blöcke</div>
+        <div class="ext-steps">
+          <div class="ext-step">
+            <div class="ext-num">1</div>
+            <div class="ext-text">Öffne in MakeCode die Kategorie <strong>„Musik"</strong> in der Blockliste.</div>
+          </div>
+          <div class="ext-step">
+            <div class="ext-num">2</div>
+            <div class="ext-text">Ziehe den Block <strong>„spiele Note Mittleres C für 1 Schlag"</strong> auf die Arbeitsfläche.</div>
+          </div>
+          <div class="ext-step">
+            <div class="ext-num">3</div>
+            <div class="ext-text">Klicke auf die Note im Block — eine <strong>Klaviertastatur</strong> öffnet sich, dort wählst du den Ton aus.</div>
+          </div>
+          <div class="ext-step">
+            <div class="ext-num">4</div>
+            <div class="ext-text">Zeit-Spar-Trick: <strong>Rechtsklick auf einen Block → „Duplizieren"</strong> — bei langen Liedern Gold wert!</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Aufgaben-Steps -->
+      <div class="steps">
+
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">Die Tonleiter spielen</div>
+            <div class="step-desc">
+              Ziehe <strong>„wenn Knopf A gedrückt"</strong> (Kategorie Eingabe) auf die Fläche. Setze <strong>„spiele Note Mittleres C für 1 Schlag"</strong> hinein und dupliziere ihn 7-mal. Stelle die Noten auf <code>C D E F G A H C'</code> — genau wie am Tonleiter-Blatt. Drücke A: deine erste Tonleiter erklingt!
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Notenwerte einstellen</div>
+            <div class="step-desc">
+              Klicke im Block auf die Schlagzahl: dort wählst du <code>1</code>, <code>2</code> oder <code>4</code> Schläge. Denk an den Spickzettel: <strong>Viertel = 1</strong>, <strong>Halbe = 2</strong>, <strong>Ganze = 4</strong>.
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">„Alle meine Entchen" übersetzen</div>
+            <div class="step-desc">
+              Nimm das Notenblatt aus der Box und schreibe unter jede Note ihren <strong>Buchstaben</strong> — die Tonleiter hilft dir beim Zuordnen. Wichtig: Die erste Note ist das <strong>Mittlere C</strong>! Programmiere das Lied dann Note für Note auf <strong>„wenn Knopf B gedrückt"</strong>.
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">Dein Wahllied</div>
+            <div class="step-desc">
+              Such dir ein Notenblatt aus der Box aus und programmiere es auf <strong>„wenn Knopf A+B gedrückt"</strong>:
+              <div class="level-cards">
+                <div class="level-card">
+                  <span class="level-tag level-leicht">Leicht</span>
+                  <div class="level-text">Fuchs du hast die Gans gestohlen
+                    <div class="level-detail">Achtung: Hier wird jedes F zum F# und jedes C zum C# — das sind die schwarzen Tasten!</div>
+                  </div>
+                </div>
+                <div class="level-card">
+                  <span class="level-tag level-mittel">Mittel</span>
+                  <div class="level-text">Havana (Camila Cabello)
+                    <div class="level-detail">Mehr Rhythmus-Wechsel — zähle die Schläge genau.</div>
+                  </div>
+                </div>
+                <div class="level-card">
+                  <span class="level-tag level-schwer">Schwer</span>
+                  <div class="level-text">Despacito (Luis Fonsi)
+                    <div class="level-detail">Viele Noten, schnelle Wechsel — die Königsdisziplin!</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- MakeCode öffnen -->
+      <div class="makecode-section">
+        <div class="section-header">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+          <span>MakeCode Editor öffnen</span>
+        </div>
+        <div class="makecode-body">
+          <a href="https://makecode.microbit.org/" target="_blank" rel="noopener noreferrer" class="btn-makecode">
+            <svg width="22" height="22" viewBox="0 0 100 100" fill="none"><rect width="100" height="100" rx="18" fill="#fff"/><path d="M22 50L38 34L54 50L38 66L22 50Z" fill="#e63022"/><path d="M46 50L62 34L78 50L62 66L46 50Z" fill="#e63022" opacity=".6"/></svg>
+            In MakeCode öffnen
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+          <p class="makecode-note">Die Musik-Blöcke sind schon eingebaut — keine Extension nötig!</p>
+        </div>
+      </div>
+
+      <!-- Tipp / Lösung -->
+      <div class="hint-section">
+
+        <button class="btn btn-tipp" id="btnTipp" aria-expanded="false" onclick="toggleTipp()">
+          <span>💡</span><span>Tipp anzeigen</span><span class="btn-icon">▾</span>
+        </button>
+        <div class="panel" id="panelTipp">
+          <div class="panel-inner">
+            <div class="panel-content tipp-content">
+              <ul>
+                <li><strong>Rechtsklick → Duplizieren</strong> spart dir bei langen Liedern richtig viel Zeit.</li>
+                <li>Die erste Note von „Alle meine Entchen" ist das <strong>Mittlere C</strong> — nicht das hohe C'! Falsche Oktave = das Lied klingt zu hoch oder zu tief.</li>
+                <li><strong>Zähl-Trick:</strong> Im 4/4-Takt müssen die Schläge in jedem Takt zusammen 4 ergeben. Geht es nicht auf, ist eine Notenlänge falsch.</li>
+                <li>Bei <strong>„Fuchs"</strong> stehen 2 Kreuze (♯) am Zeilenanfang: Spiele jedes <strong>F als F#</strong> und jedes <strong>C als C#</strong> — auf der Klaviertastatur die schwarzen Tasten.</li>
+                <li><strong>Kein Ton?</strong> V2: Lautstärke-Block prüfen. V1: Sitzen die Krokodilklemmen fest an P0 und GND?</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-loesung" id="btnLoesung" aria-expanded="false" disabled onclick="toggleLoesung()">
+          <span>🔓</span><span>Lösung anzeigen</span><span class="btn-icon">▾</span>
+        </button>
+        <div class="panel" id="panelLoesung">
+          <div class="panel-inner">
+            <div class="panel-content loesung-content">
+              <div class="loesung-warning">
+                <span>⚠️</span>
+                <span>Versuche es zuerst selbst — die Lösung ist nur zur Kontrolle!</span>
+              </div>
+              <div class="loesung-label">„Alle meine Entchen" (im „wenn Knopf B gedrückt"-Block)</div>
+              <div style="background:#0a0a1a;border:1px solid var(--border);border-radius:10px;padding:1rem;font-family:monospace;font-size:.85rem;line-height:1.9;color:var(--text)">
+                <div style="color:#e879f9;font-weight:700">wenn Knopf B gedrückt</div>
+                <div style="margin-left:1rem">
+                  <div><span style="background:rgba(232,121,249,.15);padding:.1rem .4rem;border-radius:4px">spiele Note <span style="color:#a3e635">Mittleres C</span> für <span style="color:#fbbf24">1</span> Schlag</span></div>
+                  <div><span style="background:rgba(232,121,249,.15);padding:.1rem .4rem;border-radius:4px">spiele Note <span style="color:#a3e635">D</span> für <span style="color:#fbbf24">1</span> Schlag</span></div>
+                  <div><span style="background:rgba(232,121,249,.15);padding:.1rem .4rem;border-radius:4px">spiele Note <span style="color:#a3e635">E</span> für <span style="color:#fbbf24">1</span> Schlag</span></div>
+                  <div><span style="background:rgba(232,121,249,.15);padding:.1rem .4rem;border-radius:4px">spiele Note <span style="color:#a3e635">F</span> für <span style="color:#fbbf24">1</span> Schlag</span></div>
+                  <div><span style="background:rgba(232,121,249,.15);padding:.1rem .4rem;border-radius:4px">spiele Note <span style="color:#a3e635">G</span> für <span style="color:#fbbf24">2</span> Schläge</span> <span style="color:var(--subtext)">(2×)</span></div>
+                  <div><span style="background:rgba(232,121,249,.15);padding:.1rem .4rem;border-radius:4px">spiele Note <span style="color:#a3e635">A</span> für <span style="color:#fbbf24">1</span> Schlag</span> <span style="color:var(--subtext)">(4×)</span></div>
+                  <div><span style="background:rgba(232,121,249,.15);padding:.1rem .4rem;border-radius:4px">spiele Note <span style="color:#a3e635">G</span> für <span style="color:#fbbf24">4</span> Schläge</span></div>
+                  <div><span style="background:rgba(232,121,249,.15);padding:.1rem .4rem;border-radius:4px">spiele Note <span style="color:#a3e635">A</span> für <span style="color:#fbbf24">1</span> Schlag</span> <span style="color:var(--subtext)">(4×)</span></div>
+                  <div><span style="background:rgba(232,121,249,.15);padding:.1rem .4rem;border-radius:4px">spiele Note <span style="color:#a3e635">G</span> für <span style="color:#fbbf24">4</span> Schläge</span></div>
+                  <div><span style="background:rgba(232,121,249,.15);padding:.1rem .4rem;border-radius:4px">spiele Note <span style="color:#a3e635">F</span> für <span style="color:#fbbf24">1</span> Schlag</span> <span style="color:var(--subtext)">(4×)</span></div>
+                  <div><span style="background:rgba(232,121,249,.15);padding:.1rem .4rem;border-radius:4px">spiele Note <span style="color:#a3e635">E</span> für <span style="color:#fbbf24">2</span> Schläge</span> <span style="color:var(--subtext)">(2×)</span></div>
+                  <div><span style="background:rgba(232,121,249,.15);padding:.1rem .4rem;border-radius:4px">spiele Note <span style="color:#a3e635">D</span> für <span style="color:#fbbf24">1</span> Schlag</span> <span style="color:var(--subtext)">(4×)</span></div>
+                  <div><span style="background:rgba(232,121,249,.15);padding:.1rem .4rem;border-radius:4px">spiele Note <span style="color:#a3e635">Mittleres C</span> für <span style="color:#fbbf24">4</span> Schläge</span></div>
+                </div>
+              </div>
+              <p style="font-size:.8rem;color:var(--subtext);margin-top:.5rem">(2×) und (4×) bedeutet: diesen Block so oft hintereinander einfügen — Rechtsklick → Duplizieren!</p>
+              <div class="loesung-note">✨ Erweiterung: Google „[dein Lieblingslied] Flöte Noten Bilder" und programmiere dein eigenes Lied — oder zeige beim Abspielen ein Herz auf dem Display!</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="glow-divider"></div>
+
+      <!-- Checkliste -->
+      <div class="checklist-section">
+        <div class="checklist-title"><span>✅</span> Ich habe …</div>
+        <div class="checklist" id="checklist">
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">die Tonleiter von C bis C' programmiert und abgespielt</span></label>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">die Notennamen auf dem Arbeitsblatt eingetragen</span></label>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">„Alle meine Entchen" mit richtigen Notenlängen abgespielt</span></label>
+          <label class="checklist-item"><input type="checkbox" onchange="updateProgress()"><span class="check-box"></span><span class="check-label">ein Wahllied (leicht, mittel oder schwer) programmiert</span></label>
+        </div>
+        <div class="progress-row">
+          <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
+          <span class="progress-label" id="progressLabel">0 / 4</span>
+        </div>
+      </div>
+
+      <a href="../index.html" class="btn-next">🏠 Zurück zur Startseite <span class="arrow">→</span></a>
+
+    </div>
+
+  </main>
+
+  <script src="../main.js"></script>
+  <script>
+    // ── Fortschritt lokal speichern (localStorage, nur Häkchen — keine personenbezogenen Daten) ──
+    const LS_PREFIX = 'musik';
+
+    function lsGet(key) {
+      try { return localStorage.getItem(LS_PREFIX + ':' + key); } catch (e) { return null; }
+    }
+    function lsSet(key, value) {
+      try { localStorage.setItem(LS_PREFIX + ':' + key, value); } catch (e) {}
+    }
+    function saveChecks(selector, key) {
+      const items = document.querySelectorAll(selector + ' input[type="checkbox"]');
+      lsSet(key, JSON.stringify([...items].map(cb => cb.checked)));
+    }
+    function loadChecks(selector, key) {
+      const saved = lsGet(key);
+      if (!saved) return;
+      try {
+        const states = JSON.parse(saved);
+        document.querySelectorAll(selector + ' input[type="checkbox"]')
+          .forEach((cb, i) => { cb.checked = !!states[i]; });
+      } catch (e) {}
+    }
+
+    // ── Material Fortschritt ──────────────────────────────────────
+    function checkBauteile() {
+      const items = document.querySelectorAll('#bauteilList input[type="checkbox"]');
+      const total = items.length;
+      const done  = [...items].filter(cb => cb.checked).length;
+      document.getElementById('bauteilFill').style.width = Math.round(done/total*100) + '%';
+      document.getElementById('bauteilLabel').textContent = done + ' / ' + total;
+      saveChecks('#bauteilList', 'bauteile');
+    }
+
+    // ── Vorbereitung fertig → Phase 2 freischalten ────────────────
+    function unlockPhase2(mitScroll) {
+      const btn    = document.getElementById('btnHardware');
+      const phase2 = document.getElementById('phase2');
+
+      btn.disabled = true;
+      btn.innerHTML = '✓ Vorbereitung erledigt!';
+
+      phase2.classList.add('visible');
+
+      if (mitScroll) {
+        setTimeout(() => {
+          document.getElementById('phase2anchor').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 120);
+      } else {
+        phase2.style.animation = 'none';
+      }
+    }
+
+    function hardwareFertig() {
+      lsSet('hardware', '1');
+      unlockPhase2(true);
+    }
+
+    // ── Gespeicherten Stand beim Laden wiederherstellen ───────────
+    loadChecks('#bauteilList', 'bauteile');
+    checkBauteile();
+    loadChecks('#checklist', 'checkliste');
+    updateProgress();
+    document.getElementById('checklist').addEventListener('change', () => saveChecks('#checklist', 'checkliste'));
+    if (lsGet('hardware') === '1') unlockPhase2(false);
+  </script>
+
+</body>
+</html>
