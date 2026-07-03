@@ -18,7 +18,7 @@ Arbeite die Punkte der Reihe nach ab. Lies vorher CLAUDE.md und SPEC.md. Hak jed
 
 ## Phase C: Differenzierung
 - [x] Aufgabe 11: Umschalter und "Anders erklärt" für aufgabe-1.html als Muster
-- [ ] Aufgabe 12: Differenzierung für aufgabe-2 bis aufgabe-5 ergänzen
+- [x] Aufgabe 12: Differenzierung für aufgabe-2 bis aufgabe-5 ergänzen
 
 ## Regeln
 1. /clear zwischen unabhängigen Aufgaben.

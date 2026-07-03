@@ -44,7 +44,92 @@
       <div><strong>Wichtig:</strong> Für diese Aufgabe brauchst du <strong>zwei micro:bits</strong> — einen als Sender und einen als Empfänger. Arbeite mit einem Partner zusammen!</div>
     </div>
 
-    <div class="steps">
+    <div class="anders-section">
+      <button class="btn btn-anders" id="btnAnders" aria-expanded="false" onclick="toggleAnders()">
+        <span>🔄</span><span>Anders erklärt</span><span class="btn-icon">▾</span>
+      </button>
+      <div class="panel" id="panelAnders">
+        <div class="panel-inner">
+          <div class="panel-content anders-content">
+            <div class="anders-label">Die gleiche Aufgabe, mit anderen Worten</div>
+            <p>Stell dir zwei micro:bits wie <strong>Walkie-Talkies</strong> vor: Beide müssen denselben Kanal eingestellt haben, sonst hört keiner den anderen. Der Kanal heißt hier <strong>Funkgruppe</strong>.</p>
+            <p>„sende Text über Funk" ist der Moment, in dem du den <strong>Sprechknopf</strong> drückst und etwas sagst — die Nachricht fliegt unsichtbar durch die Luft.</p>
+            <p>Beim Empfänger meldet sich „wenn Text empfangen": Er schreibt das Gehörte auf einen <strong>Notizzettel namens „receivedString"</strong>.</p>
+            <p>Mit „zeige Text" liest der Empfänger den Zettel vor — deine Nachricht läuft über sein Display. Zwei Geräte, ein Kanal, <strong>unsichtbare Post</strong>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stufen-section">
+      <div class="stufen-label">Wähle deinen Weg</div>
+      <div class="stufen-schalter" role="group" aria-label="Schwierigkeitsstufe wählen">
+        <button class="stufe-btn" data-stufe="leicht">🐣 Leichter</button>
+        <button class="stufe-btn" data-stufe="standard">⭐ Standard</button>
+        <button class="stufe-btn" data-stufe="schwer">🚀 Schwerer</button>
+      </div>
+    </div>
+
+    <div class="steps" data-stufe-inhalt="leicht" hidden>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Arbeite zu zweit</div>
+          <div class="step-desc">Such dir einen Partner. Ihr braucht <strong>zwei micro:bits</strong>: Einer von euch baut den <strong>Sender</strong>, der andere den <strong>Empfänger</strong>.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Sender: Funkgruppe setzen</div>
+          <div class="step-desc">Öffne ein neues Projekt. Klicke auf die Gruppe <strong>„Funk"</strong>. Ziehe <strong>„setze Funkgruppe auf"</strong> in den Block <strong>„beim Start"</strong>. Schreibe eine <strong>1</strong> hinein.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Sender: Knopf-Baustein</div>
+          <div class="step-desc">Klicke auf <strong>„Eingabe"</strong>. Ziehe <strong>„wenn Knopf A gedrückt"</strong> in die Mitte.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Sender: Nachricht schreiben</div>
+          <div class="step-desc">Klicke wieder auf <strong>„Funk"</strong>. Ziehe <strong>„sende Text über Funk"</strong> in den Knopf-Baustein. Tippe <strong>„Hallo!"</strong> in das weiße Feld.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <div class="step-title">Empfänger: Funkgruppe setzen</div>
+          <div class="step-desc">Dein Partner öffnet ein <strong>eigenes neues Projekt</strong>. Auch hier: <strong>„setze Funkgruppe auf 1"</strong> in „beim Start". Beide müssen dieselbe Zahl haben!</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <div class="step-title">Empfänger: Empfangen</div>
+          <div class="step-desc">Ziehe aus der Gruppe <strong>„Funk"</strong> den Baustein <strong>„wenn Text empfangen"</strong> in die Mitte.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">7</div>
+        <div class="step-body">
+          <div class="step-title">Empfänger: Anzeigen</div>
+          <div class="step-desc">Ziehe <strong>„zeige Text"</strong> aus „Grundlagen" hinein. Ziehe dann das kleine Oval <strong>„receivedString"</strong> in das Textfeld von „zeige Text".</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">8</div>
+        <div class="step-body">
+          <div class="step-title">Beide flashen</div>
+          <div class="step-desc">Jeder lädt sein Programm auf seinen micro:bit. Drücke <strong>Knopf A</strong> am Sender — die Nachricht erscheint beim Partner! 🎉</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="steps" data-stufe-inhalt="standard">
       <div class="step">
         <div class="step-num">1</div>
         <div class="step-body">
@@ -71,6 +156,37 @@
         <div class="step-body">
           <div class="step-title">Erweitern: Mehr Nachrichten</div>
           <div class="step-desc">Füge beim Sender einen zweiten Block für <strong>Knopf B</strong> mit einer anderen Nachricht hinzu. Kannst du auch eine <strong>Zahl</strong> senden? (Tipp: „sende Zahl über Funk" + „wenn Zahl empfangen")</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="steps" data-stufe-inhalt="schwer" hidden>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Funkstrecke bauen</div>
+          <div class="step-desc">Sender: Ein Knopfdruck schickt einen Text. Empfänger: zeigt jeden empfangenen Text an. Nur zwei Vorgaben: <strong>gleiche Funkgruppe</strong> und Kategorie <strong>Funk</strong> — den Rest findest du selbst heraus.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Störungsfrei senden</div>
+          <div class="step-desc">Im Raum funken mehrere Teams gleichzeitig. Wie stellt ihr sicher, dass ihr <strong>nur eure eigenen</strong> Nachrichten empfangt? Probiert eure Idee aus und testet sie gegen ein anderes Team.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Chat in beide Richtungen</div>
+          <div class="step-desc">Beide micro:bits sollen <strong>senden und empfangen</strong> können. Du schickst mit A eine Frage, dein Partner antwortet mit B — ein echter Mini-Chat.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Herausforderung: Würfel-Duell</div>
+          <div class="step-desc">Beim Schütteln sendet dein micro:bit eine <strong>Zufallszahl von 1 bis 6</strong> an den Partner (Wissen aus Aufgabe 4!). Wer die höhere Zahl würfelt, gewinnt die Runde. Bonus: Zeige die eigene Zahl an <strong>und</strong> empfange gleichzeitig die des Partners.</div>
         </div>
       </div>
     </div>

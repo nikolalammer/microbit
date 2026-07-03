@@ -39,7 +39,85 @@
 
   <main>
 
-    <div class="steps">
+    <div class="anders-section">
+      <button class="btn btn-anders" id="btnAnders" aria-expanded="false" onclick="toggleAnders()">
+        <span>🔄</span><span>Anders erklärt</span><span class="btn-icon">▾</span>
+      </button>
+      <div class="panel" id="panelAnders">
+        <div class="panel-inner">
+          <div class="panel-content anders-content">
+            <div class="anders-label">Die gleiche Aufgabe, mit anderen Worten</div>
+            <p>Stell dir die zwei Knöpfe deines micro:bit wie <strong>Türklingeln an einem Haus</strong> vor: Klingel A, Klingel B — und wer beide gleichzeitig drückt, gibt ein geheimes drittes Signal.</p>
+            <p>Dein Programm ist der <strong>Zettel neben der Klingel</strong>: „Wenn jemand A drückt, zeig dieses Bild." Der micro:bit liest den Zettel und macht genau das — jedes Mal.</p>
+            <p>Der Baustein „wenn Knopf A gedrückt" ist also kein Befehl, der sofort losläuft. Er <strong>wartet</strong> — wie eine Klingel, die erst dann läutet, wenn wirklich jemand drückt.</p>
+            <p>Drei Klingeln, drei Zettel, drei verschiedene Reaktionen: Genau so wird dein micro:bit <strong>interaktiv</strong>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stufen-section">
+      <div class="stufen-label">Wähle deinen Weg</div>
+      <div class="stufen-schalter" role="group" aria-label="Schwierigkeitsstufe wählen">
+        <button class="stufe-btn" data-stufe="leicht">🐣 Leichter</button>
+        <button class="stufe-btn" data-stufe="standard">⭐ Standard</button>
+        <button class="stufe-btn" data-stufe="schwer">🚀 Schwerer</button>
+      </div>
+    </div>
+
+    <div class="steps" data-stufe-inhalt="leicht" hidden>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Schau dir die Knöpfe an</div>
+          <div class="step-desc">Dein micro:bit hat zwei Knöpfe: <strong>A</strong> ist links, <strong>B</strong> ist rechts. Mit ihnen kannst du deinem Programm etwas sagen.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Neues Projekt</div>
+          <div class="step-desc">Gehe auf <strong>makecode.microbit.org</strong> und klicke auf <strong>„Neues Projekt"</strong>.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Hol den Knopf-Baustein</div>
+          <div class="step-desc">Klicke auf die Gruppe <strong>„Eingabe"</strong>. Ziehe den Baustein <strong>„wenn Knopf A gedrückt"</strong> in die Mitte.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Male ein Muster</div>
+          <div class="step-desc">Klicke auf <strong>„Grundlagen"</strong>. Ziehe <strong>„zeige LEDs"</strong> in den Knopf-Baustein hinein. Klicke auf die kleinen Kästchen und male ein Muster.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <div class="step-title">Teste im Simulator</div>
+          <div class="step-desc">Klicke links im Simulator auf den <strong>Knopf A</strong>. Dein Muster erscheint auf dem Bild.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <div class="step-title">Flashe den Code</div>
+          <div class="step-desc">Stecke den micro:bit mit dem <strong>USB-Kabel</strong> an. Klicke auf <strong>„Herunterladen"</strong> und ziehe die Datei auf das Laufwerk <strong>MICROBIT</strong>. Drücke Knopf A!</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">7</div>
+        <div class="step-body">
+          <div class="step-title">Noch ein Knopf</div>
+          <div class="step-desc">Mach das Gleiche noch einmal für <strong>Knopf B</strong> mit einem anderen Muster. Klicke dafür im Baustein auf das kleine Dreieck neben dem <strong>A</strong> und wähle <strong>B</strong>. 🎉</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="steps" data-stufe-inhalt="standard">
       <div class="step">
         <div class="step-num">1</div>
         <div class="step-body">
@@ -66,6 +144,37 @@
         <div class="step-body">
           <div class="step-title">Erweitern: Knopf B &amp; A+B</div>
           <div class="step-desc">Füge einen zweiten <strong>„wenn Knopf B gedrückt"</strong>-Block hinzu — mit einem anderen Bild. Dann noch einen für <strong>A+B</strong>. Drei Knöpfe, drei verschiedene Reaktionen!</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="steps" data-stufe-inhalt="schwer" hidden>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Drei Eingaben, drei Reaktionen</div>
+          <div class="step-desc"><strong>A</strong>, <strong>B</strong> und <strong>A+B</strong> sollen jeweils etwas anderes anzeigen. Welche Blöcke du brauchst und wo sich die Auswahl versteckt, findest du selbst heraus.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Am echten Gerät prüfen</div>
+          <div class="step-desc">Flashe und teste alle drei Eingaben am micro:bit — nicht nur im Simulator. <strong>A+B</strong> gleichzeitig braucht etwas Fingerspitzengefühl.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Geheimzeichen</div>
+          <div class="step-desc">Knopf A zeigt eine <strong>Frage</strong> (zum Beispiel ein Fragezeichen aus LEDs), Knopf B die <strong>Antwort</strong>. Denk dir eine eigene Muster-Sprache aus, die nur du und dein Partner versteht.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Herausforderung: Mehr als Knöpfe</div>
+          <div class="step-desc">Die Kategorie <strong>Eingabe</strong> kann viel mehr als A und B. Finde <strong>zwei weitere Auslöser</strong> und probiere einen davon aus. Bonus: Einer davon wird in Aufgabe 4 wichtig — welcher wohl?</div>
         </div>
       </div>
     </div>

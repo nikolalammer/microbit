@@ -39,7 +39,85 @@
 
   <main>
 
-    <div class="steps">
+    <div class="anders-section">
+      <button class="btn btn-anders" id="btnAnders" aria-expanded="false" onclick="toggleAnders()">
+        <span>🔄</span><span>Anders erklärt</span><span class="btn-icon">▾</span>
+      </button>
+      <div class="panel" id="panelAnders">
+        <div class="panel-inner">
+          <div class="panel-content anders-content">
+            <div class="anders-label">Die gleiche Aufgabe, mit anderen Worten</div>
+            <p>Stell dir deinen micro:bit wie eine <strong>Lostrommel auf dem Schulfest</strong> vor: In der Trommel liegen Lose mit den Zahlen 1 bis 6.</p>
+            <p>Schütteln dreht die Trommel — der Baustein „wenn geschüttelt" merkt das sofort, denn im micro:bit steckt ein echter <strong>Bewegungssensor</strong>.</p>
+            <p>Der Zufalls-Block ist die Hand, die <strong>blind ein Los zieht</strong>: Niemand weiß vorher, welches es wird — nicht einmal der micro:bit selbst.</p>
+            <p>Und „zeige Zahl" liest das gezogene Los <strong>laut vor</strong> — die Zahl leuchtet auf dem Display. Trommel drehen, Los ziehen, vorlesen: Fertig ist dein Würfel.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stufen-section">
+      <div class="stufen-label">Wähle deinen Weg</div>
+      <div class="stufen-schalter" role="group" aria-label="Schwierigkeitsstufe wählen">
+        <button class="stufe-btn" data-stufe="leicht">🐣 Leichter</button>
+        <button class="stufe-btn" data-stufe="standard">⭐ Standard</button>
+        <button class="stufe-btn" data-stufe="schwer">🚀 Schwerer</button>
+      </div>
+    </div>
+
+    <div class="steps" data-stufe-inhalt="leicht" hidden>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Neues Projekt</div>
+          <div class="step-desc">Gehe auf <strong>makecode.microbit.org</strong> und klicke auf <strong>„Neues Projekt"</strong>.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Hol den Schüttel-Baustein</div>
+          <div class="step-desc">Klicke auf die Gruppe <strong>„Eingabe"</strong>. Ziehe den Baustein <strong>„wenn geschüttelt"</strong> in die Mitte.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Hol den Zahlen-Baustein</div>
+          <div class="step-desc">Klicke auf <strong>„Grundlagen"</strong>. Ziehe <strong>„zeige Zahl"</strong> in den Schüttel-Baustein hinein.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Hol den Zufalls-Baustein</div>
+          <div class="step-desc">Klicke auf die lila Gruppe <strong>„Mathematik"</strong>. Ziehe <strong>„wähle zufällig"</strong> genau in das <strong>ovale Feld</strong> von „zeige Zahl" — dort, wo die 0 steht.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <div class="step-title">Stelle die Zahlen ein</div>
+          <div class="step-desc">Ändere die Zahlen im Zufalls-Baustein auf <strong>1</strong> bis <strong>6</strong> — wie bei einem echten Würfel.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <div class="step-title">Teste im Simulator</div>
+          <div class="step-desc">Klicke links im Simulator auf <strong>„SHAKE"</strong>. Eine Zufallszahl erscheint. Klicke noch einmal — kommt eine andere?</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">7</div>
+        <div class="step-body">
+          <div class="step-title">Flashe und würfle</div>
+          <div class="step-desc">Stecke den micro:bit an, klicke auf <strong>„Herunterladen"</strong> und ziehe die Datei auf <strong>MICROBIT</strong>. Jetzt kräftig schütteln! 🎉</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="steps" data-stufe-inhalt="standard">
       <div class="step">
         <div class="step-num">1</div>
         <div class="step-body">
@@ -66,6 +144,37 @@
         <div class="step-body">
           <div class="step-title">Erweitern: Größerer Bereich</div>
           <div class="step-desc">Ändere die Zufallszahl auf <strong>1 bis 100</strong>. Was passiert? Kannst du stattdessen ein zufälliges <strong>Symbol</strong> anzeigen? (Tipp: „zeige Symbol" statt „zeige Zahl" und Symbole in eine Liste packen)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="steps" data-stufe-inhalt="schwer" hidden>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Würfel bauen</div>
+          <div class="step-desc">Beim Schütteln soll eine zufällige Zahl von <strong>1 bis 6</strong> erscheinen. Du brauchst drei Blöcke aus drei verschiedenen Kategorien — welche das sind und wie sie ineinanderstecken, findest du selbst heraus.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Zufall untersuchen</div>
+          <div class="step-desc">Würfle am echten Gerät <strong>zehnmal</strong> hintereinander. Kommen alle Zahlen vor? Und warum kann direkt zweimal dieselbe Zahl kommen, obwohl es „Zufall" ist?</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Münzwurf</div>
+          <div class="step-desc">Beim Schütteln soll zufällig <strong>eines von zwei Symbolen</strong> erscheinen — zum Beispiel Herz oder Blitz. Tipp als Frage: In welcher Kategorie versteckt sich <strong>„wenn … dann … ansonsten"</strong>?</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Herausforderung: Großes Los</div>
+          <div class="step-desc">Stelle den Bereich auf <strong>1 bis 100</strong>. Beobachte genau: Wie zeigt das Display zweistellige Zahlen an? Bonus: Baue einen <strong>Doppelwurf</strong> — beim Schütteln erscheinen zwei Zufallszahlen kurz nacheinander.</div>
         </div>
       </div>
     </div>

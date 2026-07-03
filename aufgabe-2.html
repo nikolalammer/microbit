@@ -39,7 +39,85 @@
 
   <main>
 
-    <div class="steps">
+    <div class="anders-section">
+      <button class="btn btn-anders" id="btnAnders" aria-expanded="false" onclick="toggleAnders()">
+        <span>🔄</span><span>Anders erklärt</span><span class="btn-icon">▾</span>
+      </button>
+      <div class="panel" id="panelAnders">
+        <div class="panel-inner">
+          <div class="panel-content anders-content">
+            <div class="anders-label">Die gleiche Aufgabe, mit anderen Worten</div>
+            <p>Stell dir das Display deines micro:bit wie den <strong>Nachrichten-Ticker am Bahnhof</strong> vor: Die Buchstaben laufen von rechts nach links durchs Bild, weil nie alle gleichzeitig Platz haben.</p>
+            <p>Der Baustein „zeige Text" sagt dem Ticker, <strong>was er anzeigen soll</strong> — dein Name wandert Buchstabe für Buchstabe über die 25 Lämpchen.</p>
+            <p>Und „dauerhaft"? Das ist wie eine <strong>Rolltreppe, die nie stehen bleibt</strong>: Alles, was darin steckt, läuft immer wieder von vorn. Dein Name kommt also endlos zurück.</p>
+            <p>„zeige Zahl" ist derselbe Ticker, nur mit <strong>Zahlen statt Buchstaben</strong> — kombiniere beides und du hast deine eigene Nachrichtensendung.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stufen-section">
+      <div class="stufen-label">Wähle deinen Weg</div>
+      <div class="stufen-schalter" role="group" aria-label="Schwierigkeitsstufe wählen">
+        <button class="stufe-btn" data-stufe="leicht">🐣 Leichter</button>
+        <button class="stufe-btn" data-stufe="standard">⭐ Standard</button>
+        <button class="stufe-btn" data-stufe="schwer">🚀 Schwerer</button>
+      </div>
+    </div>
+
+    <div class="steps" data-stufe-inhalt="leicht" hidden>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Neues Projekt</div>
+          <div class="step-desc">Gehe auf <strong>makecode.microbit.org</strong>. Klicke auf <strong>„Neues Projekt"</strong>. Gib einen Namen ein, zum Beispiel <strong>Mein Name</strong>.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Finde den Baustein</div>
+          <div class="step-desc">Klicke auf die blaue Gruppe <strong>„Grundlagen"</strong>. Suche den Baustein <strong>„zeige Text"</strong>.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Ziehe den Baustein</div>
+          <div class="step-desc">Ziehe <strong>„zeige Text"</strong> in die Mitte — genau in den Block <strong>„dauerhaft"</strong> hinein.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Tippe deinen Namen</div>
+          <div class="step-desc">Klicke auf das <strong>weiße Feld</strong> im Baustein. Lösche den alten Text. Schreibe <strong>deinen Namen</strong> hinein.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <div class="step-title">Schau auf den Simulator</div>
+          <div class="step-desc">Links im Bild läuft dein Name schon über das Display. So wird es auch am echten micro:bit aussehen.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <div class="step-title">Stecke den micro:bit an</div>
+          <div class="step-desc">Verbinde den micro:bit mit dem <strong>USB-Kabel</strong> mit deinem Computer.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">7</div>
+        <div class="step-body">
+          <div class="step-title">Herunterladen</div>
+          <div class="step-desc">Klicke auf <strong>„Herunterladen"</strong>. Ziehe die neue Datei auf das Laufwerk <strong>MICROBIT</strong>. Dein Name läuft über das Display! 🎉</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="steps" data-stufe-inhalt="standard">
       <div class="step">
         <div class="step-num">1</div>
         <div class="step-body">
@@ -66,6 +144,37 @@
         <div class="step-body">
           <div class="step-title">Erweitern: Text + Zahl</div>
           <div class="step-desc">Füge unter deinem Namen-Block einen <strong>„zeige Zahl"</strong>-Block hinzu. Gib eine Zahl ein. Kombiniere mehrere Texte — der micro:bit zeigt sie nacheinander an!</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="steps" data-stufe-inhalt="schwer" hidden>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Laufschrift bauen</div>
+          <div class="step-desc">Lass deinen Namen <strong>endlos</strong> über das Display laufen. Welcher Block das kann und wo er hingehört, findest du selbst heraus.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Text und Zahl kombinieren</div>
+          <div class="step-desc">Nach deinem Namen soll eine <strong>Zahl</strong> erscheinen — zum Beispiel dein Alter oder deine Glückszahl. Prüfe am echten Gerät, nicht nur im Simulator.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Begrüßung beim Start</div>
+          <div class="step-desc">Beim Einschalten soll <strong>genau einmal</strong> „Hi" erscheinen — erst danach beginnt die endlose Laufschrift. Du brauchst zwei verschiedene Container-Blöcke: Welcher macht was?</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Herausforderung: Tempo &amp; Pausen</div>
+          <div class="step-desc">Baue mit <strong>„pausiere (ms)"</strong> eine spürbare Pause zwischen deinen Nachrichten ein. Bonus: Was passiert, wenn du „zeige Text" statt in „dauerhaft" in <strong>„beim Start"</strong> legst? Erkläre den Unterschied in einem Satz.</div>
         </div>
       </div>
     </div>
