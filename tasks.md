@@ -9,7 +9,7 @@ Arbeite die Punkte der Reihe nach ab. Lies vorher CLAUDE.md und SPEC.md. Hak jed
 - [x] Aufgabe 4: Musik-Seite mit dem Skill bauen
 - [x] Aufgabe 5: PlantBit-Seite mit dem Skill bauen
 - [x] Aufgabe 6: Bildschirm-Seite mit dem Skill bauen
-- [ ] Aufgabe 7: Auto-Lego-Seite mit dem Skill bauen
+- [x] Aufgabe 7: Auto-Lego-Seite mit dem Skill bauen
 - [ ] Aufgabe 8: Startseite aktualisieren, "Coming Soon" entfernen
 
 ## Phase B: Selbstkontrolle
