@@ -31,27 +31,21 @@
     .lernbox-card {
       background: var(--surface);
       border: 1px solid var(--border);
+      border-top: 3px solid var(--box-accent, var(--accent));
       border-radius: var(--radius);
       padding: 1.25rem;
       display: flex; flex-direction: column; gap: .5rem;
-      opacity: .55;
-      position: relative;
-      overflow: hidden;
+      text-decoration: none;
+      transition: transform .15s ease, border-color .15s ease;
     }
-    .lernbox-card::after {
-      content: 'Coming Soon';
-      position: absolute;
-      top: .6rem; right: -.8rem;
-      background: var(--border);
-      color: var(--subtext);
-      font-size: .65rem; font-weight: 700;
-      letter-spacing: .06em; text-transform: uppercase;
-      padding: .2rem 1.5rem;
-      transform: rotate(30deg);
+    .lernbox-card:hover, .lernbox-card:active {
+      transform: translateY(-3px);
+      border-color: var(--box-accent, var(--accent));
     }
     .lernbox-icon { font-size: 1.75rem; }
     .lernbox-title { font-weight: 700; color: #fff; }
     .lernbox-desc { font-size: .82rem; color: var(--subtext); }
+    .lernbox-arrow { margin-top: auto; padding-top: .4rem; font-size: .85rem; font-weight: 700; color: var(--box-accent, var(--accent)); }
 
     @media (max-width: 600px) {
       .intro-grid { grid-template-columns: 1fr 1fr; }
@@ -170,41 +164,47 @@
       <div class="section-title">📦 Lernboxen – Projekte</div>
       <div class="lernbox-grid">
 
-        <div class="lernbox-card">
+        <a href="skybit/" class="lernbox-card" style="--box-accent:#38bdf8">
           <div class="lernbox-icon">🌤️</div>
           <div class="lernbox-title">SkyBit</div>
           <div class="lernbox-desc">Mini-Wetterstation mit Temperatur &amp; Luftfeuchtigkeit</div>
-        </div>
+          <div class="lernbox-arrow">Öffnen →</div>
+        </a>
 
-        <div class="lernbox-card">
+        <a href="microcar/" class="lernbox-card" style="--box-accent:#ef4444">
           <div class="lernbox-icon">🚗</div>
           <div class="lernbox-title">MicroCar</div>
           <div class="lernbox-desc">Ferngesteuertes Auto mit Funk-Steuerung</div>
-        </div>
+          <div class="lernbox-arrow">Öffnen →</div>
+        </a>
 
-        <div class="lernbox-card">
+        <a href="musik/" class="lernbox-card" style="--box-accent:#e879f9">
           <div class="lernbox-icon">🎵</div>
           <div class="lernbox-title">Musik</div>
           <div class="lernbox-desc">Melodien programmieren und spielen</div>
-        </div>
+          <div class="lernbox-arrow">Öffnen →</div>
+        </a>
 
-        <div class="lernbox-card">
+        <a href="plantbit/" class="lernbox-card" style="--box-accent:#4ade80">
           <div class="lernbox-icon">🌱</div>
           <div class="lernbox-title">PlantBit</div>
           <div class="lernbox-desc">Pflanzensensor: Erkennt wann gegossen werden muss</div>
-        </div>
+          <div class="lernbox-arrow">Öffnen →</div>
+        </a>
 
-        <div class="lernbox-card">
+        <a href="bildschirm/" class="lernbox-card" style="--box-accent:#a78bfa">
           <div class="lernbox-icon">🖥️</div>
           <div class="lernbox-title">Bildschirm</div>
           <div class="lernbox-desc">OLED-Display am micro:bit ansteuern</div>
-        </div>
+          <div class="lernbox-arrow">Öffnen →</div>
+        </a>
 
-        <div class="lernbox-card">
+        <a href="autolego/" class="lernbox-card" style="--box-accent:#fbbf24">
           <div class="lernbox-icon">🧱</div>
           <div class="lernbox-title">LEGO Auto</div>
           <div class="lernbox-desc">LEGO-Fahrzeug mit 3D-Druck und Servomotoren</div>
-        </div>
+          <div class="lernbox-arrow">Öffnen →</div>
+        </a>
 
       </div>
     </div>

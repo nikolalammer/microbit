@@ -10,7 +10,7 @@ Arbeite die Punkte der Reihe nach ab. Lies vorher CLAUDE.md und SPEC.md. Hak jed
 - [x] Aufgabe 5: PlantBit-Seite mit dem Skill bauen
 - [x] Aufgabe 6: Bildschirm-Seite mit dem Skill bauen
 - [x] Aufgabe 7: Auto-Lego-Seite mit dem Skill bauen
-- [ ] Aufgabe 8: Startseite aktualisieren, "Coming Soon" entfernen
+- [x] Aufgabe 8: Startseite aktualisieren, "Coming Soon" entfernen
 
 ## Phase B: Selbstkontrolle
 - [ ] Aufgabe 9: Mini-Quiz für aufgabe-1.html als Muster bauen, dann Freigabe abwarten
