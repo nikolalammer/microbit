@@ -13,6 +13,7 @@
   --purple:    #7c3aed;
   --success:   #10b981;
   --warn:      #f59e0b;
+  --error:     #ef4444;
   --text:      #e2e8f0;
   --subtext:   #94a3b8;
   --radius:    14px;
@@ -271,6 +272,54 @@ main { max-width: 900px; margin: 0 auto; padding: 0 1.5rem 4rem; display: flex; 
   border: 1px solid rgba(245,158,11,.25);
   border-radius: 8px; padding: .75rem 1rem;
   font-size: .85rem; color: var(--warn);
+}
+
+/* ── Mini-Quiz ── */
+.quiz-section {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.5rem;
+  display: flex; flex-direction: column; gap: 1.25rem;
+}
+.quiz-title { font-weight: 700; font-size: 1.05rem; display: flex; align-items: center; gap: .5rem; }
+.quiz-intro { font-size: .9rem; color: var(--subtext); margin-top: -.75rem; }
+.quiz-frage { display: flex; flex-direction: column; gap: .6rem; }
+.quiz-frage-text { font-weight: 600; font-size: .95rem; color: #fff; }
+.quiz-antworten { display: flex; flex-direction: column; gap: .5rem; }
+.quiz-antwort {
+  min-height: 48px; padding: .75rem 1rem; border-radius: 10px;
+  background: var(--surface2); border: 1px solid var(--border);
+  color: var(--text); font-size: .95rem; font-weight: 600; font-family: inherit;
+  text-align: left; cursor: pointer; width: 100%;
+  transition: all var(--transition); touch-action: manipulation;
+}
+.quiz-antwort:hover:not(:disabled), .quiz-antwort:focus-visible:not(:disabled) {
+  border-color: var(--accent); background: rgba(0,212,255,.06);
+}
+.quiz-antwort.richtig {
+  background: rgba(16,185,129,.15); border-color: var(--success);
+  color: var(--success); animation: pulse .6s ease;
+}
+.quiz-antwort.richtig::after { content: ' ✓'; font-weight: 800; }
+.quiz-antwort.falsch {
+  background: rgba(239,68,68,.12); border-color: var(--error);
+  color: var(--error); animation: shake .4s ease;
+}
+.quiz-antwort.falsch::after { content: ' ✗'; font-weight: 800; }
+.quiz-antwort:disabled { cursor: default; }
+.quiz-frage.geloest .quiz-antwort:not(.richtig):not(.falsch) { opacity: .4; }
+.quiz-done-content {
+  display: flex; align-items: flex-start; gap: .75rem;
+  background: linear-gradient(135deg, rgba(16,185,129,.12), rgba(16,185,129,.04));
+  border-color: rgba(16,185,129,.3);
+  font-size: .95rem;
+}
+.quiz-done-content strong { color: var(--success); }
+.quiz-done-icon { font-size: 1.4rem; flex-shrink: 0; }
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-6px); }
+  50%      { transform: translateX(6px); }
+  75%      { transform: translateX(-4px); }
 }
 
 /* ── Checkliste ── */
